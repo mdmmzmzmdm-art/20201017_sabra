@@ -23,9 +23,6 @@
       font-family: system-ui, Arial, sans-serif;
     }
 
-    /* ============================================================
-       SFONDO SU TUTTA LA PAGINA (sidebar inclusa)
-       ============================================================ */
     body {
       display: flex;
       height: 100vh;
@@ -288,7 +285,8 @@
   <aside class="sidebar">
     <h2>Menu</h2>
 
-    <button class="nav-btn active" data-type="section" data-target="sabra">
+    <!-- BOTTONE PROF. SABRA: ora caricato come iframe -->
+    <button class="nav-btn active" data-type="iframe" data-url="evento.html">
       prof. Mahmoud Sabra
     </button>
 
@@ -332,27 +330,7 @@
   <!-- ================= AREA CENTRALE ================= -->
   <main class="main">
 
-    <section id="sabra" class="content-section active">
-      <h1>prof. Mahmoud Sabra</h1>
-      <p>
-        In questa sezione puoi presentare il profilo del prof. Mahmoud Sabra:
-        biografia, formazione, attività accademica, pubblicazioni e progetti.
-      </p>
-
-      <h2>Profilo</h2>
-      <p>
-        Sostituisci questo testo con le informazioni che vuoi mostrare.
-        Puoi inserire immagini, elenchi, citazioni o qualsiasi contenuto HTML.
-      </p>
-
-      <h2>Pubblicazioni</h2>
-      <ul>
-        <li>Titolo pubblicazione 1 – Anno</li>
-        <li>Titolo pubblicazione 2 – Anno</li>
-        <li>Titolo pubblicazione 3 – Anno</li>
-      </ul>
-    </section>
-
+    <!-- SEZIONE 4: VIDEO UNIVERSITÀ -->
     <section id="video" class="content-section video-section">
       <h1>4. Università video</h1>
       <div class="video-wrapper">
@@ -365,6 +343,7 @@
       <p class="video-caption">Sostituisci questa didascalia con la descrizione del video.</p>
     </section>
 
+    <!-- SEZIONE 5: VOCE DEGLI STUDENTI -->
     <section id="voce" class="content-section video-section">
       <h1>5. voce degli studenti</h1>
       <div class="video-wrapper">
@@ -377,10 +356,9 @@
       <p class="video-caption">Sostituisci questa didascalia con la descrizione del video.</p>
     </section>
 
-    <!-- ============ SEZIONE AL-AZHAR (aggiornata) ============ -->
+    <!-- SEZIONE AL-AZHAR -->
     <section id="alazhar" class="content-section video-section">
       <h1>Al-Azhar</h1>
-
       <div class="video-wrapper">
         <video controls preload="metadata" playsinline>
           <source src="almughraqa.mp4" type="video/mp4">
@@ -388,7 +366,6 @@
           <a href="almughraqa.mp4">Scarica il video</a>.
         </video>
       </div>
-
       <p class="video-caption">
         <strong>7 dicembre 2023</strong> – Fonte:
         <a href="https://gaza.forensic-architecture.org/database/incidents" target="_blank" rel="noopener">
@@ -397,6 +374,7 @@
       </p>
     </section>
 
+    <!-- CONTENITORE IFRAME (evento.html, economia.html, mappa.html, primadopo.html, supe.html, univ.html) -->
     <div class="frame-wrapper" id="frameWrapper">
       <iframe
         id="frame"
@@ -420,6 +398,12 @@
     const frame         = document.getElementById('frame');
     const loader        = document.getElementById('loader');
     const fullscreenBtn = document.getElementById('fullscreenBtn');
+
+    // ---- Carica subito evento.html all'avvio ----
+    window.addEventListener('DOMContentLoaded', () => {
+      frameWrapper.classList.add('active');
+      frame.src = 'evento.html';
+    });
 
     navButtons.forEach(button => {
       button.addEventListener('click', () => {
