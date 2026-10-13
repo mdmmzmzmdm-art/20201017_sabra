@@ -24,7 +24,7 @@
     }
 
     /* ============================================================
-       SFONDO SU TUTTA LA PAGINA
+       SFONDO SU TUTTA LA PAGINA (sidebar inclusa)
        ============================================================ */
     body {
       display: flex;
@@ -84,10 +84,7 @@
       width: 100%;
       padding: 0.95rem 1.1rem;
 
-      /* Nessun riempimento: si vede l'immagine dietro */
       background: transparent;
-
-      /* Solo contorno */
       border: 2px solid rgba(255, 255, 255, 0.75);
       border-radius: 10px;
 
@@ -99,7 +96,6 @@
       line-height: 1.35;
       cursor: pointer;
       transition: background 0.2s, border-color 0.2s, transform 0.1s;
-      /* Ombra sul testo per la leggibilità */
       text-shadow:
         0 1px 2px rgba(0,0,0,0.85),
         0 0 10px rgba(0,0,0,0.5);
@@ -217,6 +213,17 @@
       padding: 0.5rem 1rem;
       border-radius: 8px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    .video-caption a {
+      color: #b31b1b;
+      text-decoration: none;
+      border-bottom: 1px dotted #b31b1b;
+    }
+
+    .video-caption a:hover {
+      color: #7a0f0f;
+      border-bottom-color: #7a0f0f;
     }
 
     /* ---------- IFRAME ---------- */
@@ -370,8 +377,10 @@
       <p class="video-caption">Sostituisci questa didascalia con la descrizione del video.</p>
     </section>
 
+    <!-- ============ SEZIONE AL-AZHAR (aggiornata) ============ -->
     <section id="alazhar" class="content-section video-section">
       <h1>Al-Azhar</h1>
+
       <div class="video-wrapper">
         <video controls preload="metadata" playsinline>
           <source src="almughraqa.mp4" type="video/mp4">
@@ -379,7 +388,13 @@
           <a href="almughraqa.mp4">Scarica il video</a>.
         </video>
       </div>
-      <p class="video-caption">Sostituisci questa didascalia con la descrizione del video.</p>
+
+      <p class="video-caption">
+        <strong>7 dicembre 2023</strong> – Fonte:
+        <a href="https://gaza.forensic-architecture.org/database/incidents" target="_blank" rel="noopener">
+          Forensic Architecture – Gaza Database
+        </a>
+      </p>
     </section>
 
     <div class="frame-wrapper" id="frameWrapper">
