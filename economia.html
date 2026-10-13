@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Palestina e Gaza: PIL settoriale e Occupazione+Disoccupazione (2000-2022)</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.1.0/dist/chartjs-plugin-annotation.min.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+      background: #f4f7fb;
+      margin: 0;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .chart-container {
+      max-width: 1300px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 20, 40, 0.08);
+      padding: 2rem 2rem 1.5rem;
+      box-sizing: border-box;
+      margin-bottom: 2rem;
+    }
+    h1 {
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: #1e2a3a;
+      margin: 0 0 0.4rem 0;
+      text-align: center;
+      line-height: 1.3;
+    }
+    .subtitle {
+      text-align: center;
+      color: #5a6a7e;
+      font-size: 1.15rem;
+      margin-bottom: 1.8rem;
+      font-weight: 500;
+    }
+    .note {
+      text-align: center;
+      color: #7a8a9e;
+      font-size: 1rem;
+      margin-top: 1.5rem;
+      font-style: italic;
+      line-height: 1.5;
+    }
+    canvas {
+      width: 100% !important;
+      height: auto !important;
+    }
+
+    /* Legenda eventi */
+    .legend-container {
+      max-width: 1300px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 20, 40, 0.08);
+      padding: 2rem 2.5rem;
+      box-sizing: border-box;
+      margin-bottom: 2rem;
+    }
+    .legend-container h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1e2a3a;
+      margin: 0 0 0.4rem 0;
+      text-align: center;
+    }
+    .legend-container .legend-sub {
+      text-align: center;
+      color: #5a6a7e;
+      font-size: 1rem;
+      margin-bottom: 1.8rem;
+    }
+    .legend-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1rem;
+    }
+    .legend-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.9rem;
+      padding: 0.85rem 1rem;
+      border-radius: 10px;
+      background: #f9fbfd;
+      border-left: 6px solid #ccc;
+      transition: background 0.15s;
+    }
+    .legend-item:hover { background: #eef4fa; }
+    .legend-year {
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: #1e2a3a;
+      min-width: 52px;
+      flex-shrink: 0;
+    }
+    .legend-text { display: flex; flex-direction: column; gap: 0.2rem; }
+    .legend-title { font-weight: 700; font-size: 1rem; color: #1e2a3a; line-height: 1.25; }
+    .legend-desc { font-size: 0.9rem; color: #4a5a6e; line-height: 1.4; }
+    .legend-anno-militare       { border-left-color: #c62828; }
+    .legend-anno-politico       { border-left-color: #6a1b9a; }
+    .legend-anno-istituzionale  { border-left-color: #e65100; }
+    .legend-anno-apertura       { border-left-color: #2e7d32; }
+
+    .legend-tipologie {
+      margin-top: 1.6rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.2rem;
+      font-size: 0.9rem;
+      color: #4a5a6e;
+    }
+    .legend-tipologie span { display: inline-flex; align-items: center; gap: 0.4rem; }
+    .legend-tipologie .dot {
+      width: 14px; height: 14px; border-radius: 3px; display: inline-block;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PRIMO GRAFICO: PIL SETTORIALE -->
+  <div class="chart-container">
+    <h1>PIL della Palestina e della Striscia di Gaza: Agricoltura vs Attività Manifatturiera</h1>
+    <p class="subtitle">Valore aggiunto in milioni di USD a prezzi costanti (2000–2022) – con eventi politici</p>
+    <canvas id="gdpChart" width="1200" height="750"></canvas>
+    <p class="note">
+      <strong>Fonti:</strong> PCBS, <em>National Accounts</em> (base 2015); PMA, <em>Annual Report 2022</em>; PCBS, <em>Press Release Agricultural Sector Gaza</em> (2023).
+    </p>
+  </div>
+
+  <!-- SECONDO GRAFICO: OCCUPAZIONE + DISOCCUPAZIONE -->
+  <div class="chart-container">
+    <h1>Occupazione e Disoccupazione: Palestina vs Striscia di Gaza</h1>
+    <p class="subtitle">Occupati (migliaia, asse sinistro) e tasso di disoccupazione (%, asse destro) – 2000–2022</p>
+    <canvas id="employmentChart" width="1200" height="750"></canvas>
+    <p class="note">
+      <strong>Fonti:</strong> PCBS, <em>Labour Force Survey</em> (varie annualità); PCBS, <em>Palestine in Figures 2022</em>.<br>
+      <strong>Asse sinistro (y):</strong> numero di occupati in migliaia. <strong>Asse destro (y1):</strong> tasso di disoccupazione in percentuale.<br>
+      <strong>Nota:</strong> i tassi di disoccupazione si riferiscono alla popolazione in età lavorativa (15 anni e oltre).
+    </p>
+  </div>
+
+  <!-- LEGENDA EVENTI -->
+  <div class="legend-container">
+    <h2>Legenda degli eventi politici</h2>
+    <p class="legend-sub">Eventi che hanno maggiormente influenzato l’economia palestinese (2000–2022)</p>
+
+    <div class="legend-grid">
+      <div class="legend-item legend-anno-militare">
+        <div class="legend-year">2000</div>
+        <div class="legend-text">
+          <div class="legend-title">Seconda Intifada</div>
+          <div class="legend-desc">Rivolta palestinese iniziata a settembre 2000. Chiusure prolungate dei territori, crollo del turismo, forte contrazione di PIL e occupazione.</div>
+        </div>
+      </div>
+      <div class="legend-item legend-anno-militare">
+        <div class="legend-year">2002</div>
+        <div class="legend-text">
+          <div class="legend-title">Operazione Scudo Difensivo</div>
+          <div class="legend-desc">Offensiva militare israeliana in Cisgiordania (marzo–aprile 2002). Danni alle infrastrutture, coprifuoco e disoccupazione oltre il 60% in alcune città.</div>
+        </div>
+      </div>
+      <div class="legend-item legend-anno-politico">
+        <div class="legend-year">2004</div>
+        <div class="legend-text">
+          <div class="legend-title">Morte di Yasser Arafat</div>
+          <div class="legend-desc">Scomparsa del leader storico palestinese (11 novembre 2004). Incertezza politica e transizione istituzionale.</div>
+        </div>
+      </div>
+      <div class="legend-item legend-anno-apertura">
+        <div class="legend-year">2005</div>
+        <div class="legend-text">
+          <div class="legend-title">Ritiro israeliano da Gaza</div>
+          <div class="legend-desc">Disimpegno unilaterale di Israele dalla Striscia (agosto 2005). Breve apertura economica, ma restrizioni su valichi e export.</div>
+        </div>
+      </div>
+      <div class="legend-item legend-anno-istituzionale">
+        <div class="legend-year">2006</div>
+        <div class="legend-text">
+          <div class="legend-title">Elezioni Hamas / Embargo</div>
+          <div class="legend-desc">Vittoria di Hamas (gennaio 2006). Sospensione degli aiuti internazionali e delle entrate doganali, grave crisi fiscale dell’AP.</div>
+        </div>
+      </div>
+      <div class="legend-item legend-anno-militare">
+        <div class="legend-year">2007</div>
+        <div class="legend-text">
+          <div class="legend-title">Blocco di Gaza</div>
+          <div class="legend-desc">Israele ed Egitto impongono un blocco totale su Gaza (giugno 2007). Disoccupazione al 32%, povertà al 79%.</div>
+        </div>
+      </div>
+      <div class="legend-item legend-anno-militare">
+        <div class="legend-year">2008</div>
+        <div class="legend-text">
+          <div class="legend-title">Operazione Piombo Fuso</div>
+          <div class="legend-desc">Offensiva militare su Gaza (dicembre 2008 – gennaio 2009). Distruzione di fabbriche e serre, centinaia di milioni di dollari di perdite.</div>
+        </div>
+      </div>
+      <div class="legend-item legend-anno-militare">
+        <div class="legend-year">2012</div>
+        <div class="legend-text">
+          <div class="legend-title">Operazione Colonna di Difesa</div>
+          <div class="legend-desc">Offensiva militare su Gaza (14–21 novembre 2012). Otto giorni di attacchi, danni a infrastrutture e impianti produttivi.</div>
+        </div>
+      </div>
+      <div class="legend-item legend-anno-militare">
+        <div class="legend-year">2014</div>
+        <div class="legend-text">
+          <div class="legend-title">Operazione Margine Protettivo</div>
+          <div class="legend-desc">Guerra di Gaza di 50 giorni (luglio–agosto 2014). Danni stimati in 4 miliardi di dollari, disoccupazione a Gaza oltre il 44%.</div>
+        </div>
+      </div>
+      <div class="legend-item legend-anno-politico">
+        <div class="legend-year">2018</div>
+        <div class="legend-text">
+          <div class="legend-title">Crisi fiscale AP / Tagli agli aiuti</div>
+          <div class="legend-desc">Riduzione degli aiuti internazionali e delle entrate doganali, tensioni AP–Hamas. Crescita del PIL allo 0,9%.</div>
+        </div>
+      </div>
+      <div class="legend-item legend-anno-politico">
+        <div class="legend-year">2020</div>
+        <div class="legend-text">
+          <div class="legend-title">COVID-19 / Accordi di Abramo</div>
+          <div class="legend-desc">Pandemia e lockdown, contrazione del PIL dell’11,5%. Gli Accordi di Abramo riducono i finanziamenti arabi all’AP.</div>
+        </div>
+      </div>
+      <div class="legend-item legend-anno-militare">
+        <div class="legend-year">2021</div>
+        <div class="legend-text">
+          <div class="legend-title">Guerra di Gaza 2021</div>
+          <div class="legend-desc">Scontri di 11 giorni (maggio 2021). Perdite stimate tra 105 e 190 milioni di dollari, danni a Gaza e impatti su occupazione.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="legend-tipologie">
+      <span><span class="dot" style="background:#c62828;"></span> Evento militare / conflitto</span>
+      <span><span class="dot" style="background:#6a1b9a;"></span> Evento politico / istituzionale</span>
+      <span><span class="dot" style="background:#e65100;"></span> Evento elettorale / sanzionatorio</span>
+      <span><span class="dot" style="background:#2e7d32;"></span> Evento di apertura / disimpegno</span>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      if (window['chartjs-plugin-annotation']) {
+        Chart.register(window['chartjs-plugin-annotation']);
+      }
+
+      Chart.defaults.font.family = "'Segoe UI', Roboto, Arial, sans-serif";
+      Chart.defaults.font.size = 14;
+      Chart.defaults.color = '#3a4a5e';
+
+      const anni = [
+        "2000", "2001", "2002", "2003", "2004",
+        "2005", "2006", "2007", "2008", "2009",
+        "2010", "2011", "2012", "2013", "2014",
+        "2015", "2016", "2017", "2018", "2019",
+        "2020", "2021", "2022"
+      ];
+
+      // ===== PIL settoriale =====
+      const agricolturaPalestina = [
+        600, 550, 500, 550, 600, 650, 700, 750, 800, 850,
+        900, 950, 1000, 1050, 1100, 1100, 1100, 1100, 1091, 1101,
+        1001, 993.9, 937.7
+      ];
+      const manifatturaPalestina = [
+        300, 280, 250, 300, 350, 400, 450, 500, 600, 700,
+        800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1763, 1779,
+        1501, 1537.7, 1613.5
+      ];
+      const agricolturaGaza = [
+        200, 180, 170, 180, 263.8, 199.0, 239.0, 221.9, 316.1, 351.1,
+        299.4, 307.1, 310.0, 320.0, 330.0, 340.0, 350.0, 355.0, 334.8, 348.9,
+        356.1, 260.4, 343.0
+      ];
+      const manifatturaGaza = [
+        250, 220, 200, 220, 311.8, 416.3, 222.0, 45.9, 74.2, 96.4,
+        337.1, 371.3, 380.0, 390.0, 400.0, 410.0, 420.0, 430.0, 440.0, 450.0,
+        364.9, 384.0, 406.0
+      ];
+
+      // ===== Occupazione (migliaia) =====
+      const occupazionePalestina = [
+        597, 580, 565, 570, 600, 620, 640, 660, 680, 700,
+        720, 740, 760, 780, 800, 850, 900, 950, 1010, 1010,
+        955, 1034, 1133
+      ];
+      const occupazioneGaza = [
+        212, 200, 219, 225, 230, 240, 245, 250, 255, 260,
+        270, 280, 290, 300, 310, 320, 330, 340, 350, 292,
+        255, 259, 285
+      ];
+
+      // ===== Disoccupazione (%) =====
+      const disoccupazionePalestina = [
+        14.0, 20.0, 26.0, 25.0, 24.0,
+        23.0, 23.5, 21.5, 21.0, 24.0,
+        23.7, 21.0, 23.0, 23.4, 26.0,
+        26.0, 26.0, 26.0, 26.0, 25.3,
+        25.9, 26.0, 24.4
+      ];
+      const disoccupazioneGaza = [
+        20.0, 28.0, 35.0, 34.0, 33.0,
+        32.0, 35.0, 36.0, 40.0, 42.0,
+        40.0, 35.0, 37.0, 38.0, 44.0,
+        42.0, 43.0, 44.0, 45.0, 44.7,
+        48.0, 47.0, 45.0
+      ];
+
+      const eventiPolitici = [
+        { anno: 0,  label: 'Seconda Intifada',          colore: '#c62828' },
+        { anno: 2,  label: 'Scudo Difensivo',           colore: '#c62828' },
+        { anno: 4,  label: 'Morte di Arafat',           colore: '#6a1b9a' },
+        { anno: 5,  label: 'Ritiro da Gaza',            colore: '#2e7d32' },
+        { anno: 6,  label: 'Elezioni Hamas / Embargo',  colore: '#e65100' },
+        { anno: 7,  label: 'Blocco di Gaza',            colore: '#c62828' },
+        { anno: 8,  label: 'Piombo Fuso',               colore: '#c62828' },
+        { anno: 12, label: 'Colonna di Difesa',         colore: '#c62828' },
+        { anno: 14, label: 'Margine Protettivo',        colore: '#c62828' },
+        { anno: 18, label: 'Crisi fiscale AP',          colore: '#6a1b9a' },
+        { anno: 20, label: 'COVID-19',                  colore: '#6a1b9a' },
+        { anno: 21, label: 'Guerra di Gaza 2021',       colore: '#c62828' }
+      ];
+
+      function creaAnnotazioni(yScale) {
+        const annotations = {};
+        eventiPolitici.forEach(function(ev, i) {
+          const annoEtichetta = anni[ev.anno];
+          annotations['linea' + i] = {
+            type: 'line',
+            scaleID: 'x',
+            value: annoEtichetta,
+            borderColor: ev.colore,
+            borderWidth: 2,
+            borderDash: [7, 5],
+            drawTime: 'beforeDatasetsDraw'
+          };
+          annotations['etichetta' + i] = {
+            type: 'label',
+            xScaleID: 'x',
+            xValue: annoEtichetta,
+            yScaleID: yScale,
+            yValue: 'max',
+            content: [ev.label],
+            color: '#ffffff',
+            backgroundColor: ev.colore,
+            font: { size: 18, weight: '700' },
+            padding: { top: 8, bottom: 8, left: 8, right: 8 },
+            rotation: -90,
+            xAdjust: 14,
+            yAdjust: 6,
+            callout: { display: false }
+          };
+        });
+        return annotations;
+      }
+
+      // ============================================================
+      // GRAFICO 1: PIL settoriale
+      // ============================================================
+      new Chart(document.getElementById('gdpChart').getContext('2d'), {
+        type: 'line',
+        data: {
+          labels: anni,
+          datasets: [
+            {
+              label: 'Agricoltura – Palestina',
+              data: agricolturaPalestina,
+              borderColor: '#2e7d32',
+              backgroundColor: 'rgba(46, 125, 50, 0.08)',
+              borderWidth: 3,
+              pointBackgroundColor: '#2e7d32',
+              pointBorderColor: '#ffffff',
+              pointBorderWidth: 2,
+              pointRadius: 4,
+              pointHoverRadius: 7,
+              tension: 0.2,
+              fill: false
+            },
+            {
+              label: 'Manifattura – Palestina',
+              data: manifatturaPalestina,
+              borderColor: '#1565c0',
+              backgroundColor: 'rgba(21, 101, 192, 0.08)',
+              borderWidth: 3,
+              pointBackgroundColor: '#1565c0',
+              pointBorderColor: '#ffffff',
+              pointBorderWidth: 2,
+              pointRadius: 4,
+              pointHoverRadius: 7,
+              tension: 0.2,
+              fill: false
+            },
+            {
+              label: 'Agricoltura – Striscia di Gaza',
+              data: agricolturaGaza,
+              borderColor: '#81c784',
+              backgroundColor: 'rgba(129, 199, 132, 0.08)',
+              borderWidth: 2.5,
+              borderDash: [6, 4],
+              pointBackgroundColor: '#81c784',
+              pointBorderColor: '#ffffff',
+              pointBorderWidth: 2,
+              pointRadius: 4,
+              pointHoverRadius: 7,
+              tension: 0.2,
+              fill: false
+            },
+            {
+              label: 'Manifattura – Striscia di Gaza',
+              data: manifatturaGaza,
+              borderColor: '#64b5f6',
+              backgroundColor: 'rgba(100, 181, 246, 0.08)',
+              borderWidth: 2.5,
+              borderDash: [6, 4],
+              pointBackgroundColor: '#64b5f6',
+              pointBorderColor: '#ffffff',
+              pointBorderWidth: 2,
+              pointRadius: 4,
+              pointHoverRadius: 7,
+              tension: 0.2,
+              fill: false
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          layout: { padding: { top: 220, right: 30 } },
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: {
+              position: 'top',
+              labels: { usePointStyle: true, boxWidth: 12, padding: 22, font: { size: 16, weight: '600' }, color: '#1e2a3a' }
+            },
+            tooltip: {
+              backgroundColor: '#1e2a3a',
+              titleFont: { size: 16, weight: '700' },
+              bodyFont: { size: 15 },
+              padding: 14,
+              cornerRadius: 8,
+              callbacks: {
+                label: ctx => (ctx.dataset.label || '') + ': ' + ctx.parsed.y.toLocaleString('it-IT') + ' M USD'
+              }
+            },
+            annotation: { clip: false, annotations: creaAnnotazioni('y') }
+          },
+          scales: {
+            x: {
+              title: { display: true, text: 'Anno', font: { size: 17, weight: '700' }, color: '#3a4a5e', padding: { top: 12, bottom: 5 } },
+              grid: { display: false },
+              ticks: { color: '#5a6a7e', font: { size: 15, weight: '500' } }
+            },
+            y: {
+              title: { display: true, text: 'Valore aggiunto (milioni di USD)', font: { size: 17, weight: '700' }, color: '#3a4a5e', padding: { bottom: 10 } },
+              grid: { color: 'rgba(0, 0, 0, 0.05)', drawBorder: false },
+              ticks: { color: '#5a6a7e', font: { size: 15, weight: '500' }, callback: v => v.toLocaleString('it-IT') + ' M' },
+              beginAtZero: true
+            }
+          }
+        }
+      });
+
+      // ============================================================
+      // GRAFICO 2: Occupazione + Disoccupazione (doppio asse, tutte linee)
+      // ============================================================
+      new Chart(document.getElementById('employmentChart').getContext('2d'), {
+        type: 'line',
+        data: {
+          labels: anni,
+          datasets: [
+            // ---- Linee occupazione (asse sinistro, y) ----
+            {
+              label: 'Occupati – Palestina (totale)',
+              data: occupazionePalestina,
+              borderColor: '#c62828',
+              backgroundColor: 'rgba(198, 40, 40, 0.08)',
+              borderWidth: 3,
+              pointBackgroundColor: '#c62828',
+              pointBorderColor: '#ffffff',
+              pointBorderWidth: 2,
+              pointRadius: 4,
+              pointHoverRadius: 7,
+              tension: 0.2,
+              fill: false,
+              yAxisID: 'y'
+            },
+            {
+              label: 'Occupati – Striscia di Gaza',
+              data: occupazioneGaza,
+              borderColor: '#ef6c00',
+              backgroundColor: 'rgba(239, 108, 0, 0.08)',
+              borderWidth: 3,
+              borderDash: [6, 4],
+              pointBackgroundColor: '#ef6c00',
+              pointBorderColor: '#ffffff',
+              pointBorderWidth: 2,
+              pointRadius: 4,
+              pointHoverRadius: 7,
+              tension: 0.2,
+              fill: false,
+              yAxisID: 'y'
+            },
+            // ---- Linee disoccupazione (asse destro, y1) ----
+            {
+              label: 'Disoccupazione – Palestina (%)',
+              data: disoccupazionePalestina,
+              borderColor: '#6a1b9a',
+              backgroundColor: 'rgba(106, 27, 154, 0.08)',
+              borderWidth: 3,
+              pointBackgroundColor: '#6a1b9a',
+              pointBorderColor: '#ffffff',
+              pointBorderWidth: 2,
+              pointRadius: 4,
+              pointHoverRadius: 7,
+              tension: 0.2,
+              fill: false,
+              yAxisID: 'y1'
+            },
+            {
+              label: 'Disoccupazione – Striscia di Gaza (%)',
+              data: disoccupazioneGaza,
+              borderColor: '#ab47bc',
+              backgroundColor: 'rgba(171, 71, 188, 0.08)',
+              borderWidth: 3,
+              borderDash: [6, 4],
+              pointBackgroundColor: '#ab47bc',
+              pointBorderColor: '#ffffff',
+              pointBorderWidth: 2,
+              pointRadius: 4,
+              pointHoverRadius: 7,
+              tension: 0.2,
+              fill: false,
+              yAxisID: 'y1'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          layout: { padding: { top: 220, right: 30 } },
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: {
+              position: 'top',
+              labels: { usePointStyle: true, boxWidth: 12, padding: 22, font: { size: 16, weight: '600' }, color: '#1e2a3a' }
+            },
+            tooltip: {
+              backgroundColor: '#1e2a3a',
+              titleFont: { size: 16, weight: '700' },
+              bodyFont: { size: 15 },
+              padding: 14,
+              cornerRadius: 8,
+              callbacks: {
+                label: function(ctx) {
+                  const label = ctx.dataset.label || '';
+                  if (ctx.dataset.yAxisID === 'y1') {
+                    return label + ': ' + ctx.parsed.y.toLocaleString('it-IT') + ' %';
+                  }
+                  return label + ': ' + ctx.parsed.y.toLocaleString('it-IT') + ' migliaia';
+                }
+              }
+            },
+            annotation: { clip: false, annotations: creaAnnotazioni('y') }
+          },
+          scales: {
+            x: {
+              title: { display: true, text: 'Anno', font: { size: 17, weight: '700' }, color: '#3a4a5e', padding: { top: 12, bottom: 5 } },
+              grid: { display: false },
+              ticks: { color: '#5a6a7e', font: { size: 15, weight: '500' } }
+            },
+            y: {
+              position: 'left',
+              title: { display: true, text: 'Numero di occupati (migliaia)', font: { size: 16, weight: '700' }, color: '#c62828', padding: { bottom: 10 } },
+              grid: { color: 'rgba(0, 0, 0, 0.05)', drawBorder: false },
+              ticks: { color: '#c62828', font: { size: 15, weight: '500' }, callback: v => v.toLocaleString('it-IT') + 'k' },
+              beginAtZero: true
+            },
+            y1: {
+              position: 'right',
+              title: { display: true, text: 'Tasso di disoccupazione (%)', font: { size: 16, weight: '700' }, color: '#6a1b9a', padding: { bottom: 10 } },
+              grid: { drawOnChartArea: false },
+              ticks: { color: '#6a1b9a', font: { size: 15, weight: '500' }, callback: v => v + '%' },
+              beginAtZero: true,
+              max: 60
+            }
+          }
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

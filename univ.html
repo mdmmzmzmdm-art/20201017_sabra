@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scolasticidio a Gaza – Università (fonti esplicite)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f1ea;
+            padding: 30px 20px;
+            color: #1e1e1e;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 28px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.07);
+            padding: 40px 35px;
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: #1a1a1a;
+            border-left: 8px solid #b31b1b;
+            padding-left: 22px;
+            margin-bottom: 4px;
+        }
+
+        .subhead {
+            font-size: 1.05rem;
+            color: #4a4a4a;
+            margin-left: 30px;
+            margin-bottom: 28px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e6e0d6;
+            font-weight: 400;
+        }
+
+        .subhead strong {
+            color: #b31b1b;
+            font-weight: 600;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 22px;
+            margin: 28px 0 36px 0;
+        }
+
+        .card {
+            background: #faf8f5;
+            border-radius: 20px;
+            padding: 20px 18px 18px 18px;
+            border: 1px solid #ece7df;
+            transition: 0.15s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            border-color: #c7bdb0;
+            background: #fcfaf7;
+        }
+
+        .card .label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #6f6a62;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .card .number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            color: #1e1e1e;
+            margin-bottom: 4px;
+        }
+
+        .card .number .small {
+            font-size: 1.3rem;
+            font-weight: 400;
+            color: #4d4d4d;
+        }
+
+        .card .desc {
+            font-size: 0.9rem;
+            color: #3d3d3d;
+            line-height: 1.4;
+            flex: 1;
+        }
+
+        .card .source {
+            font-size: 0.7rem;
+            color: #7a7267;
+            margin-top: 12px;
+            border-top: 1px dashed #ddd8cf;
+            padding-top: 8px;
+        }
+
+        .card .source a {
+            color: #7a7267;
+            text-decoration: none;
+            border-bottom: 1px dotted #b9b0a3;
+            font-weight: 500;
+        }
+
+        .card .source a:hover {
+            color: #b31b1b;
+            border-bottom-color: #b31b1b;
+        }
+
+        .highlight-red .number {
+            color: #b31b1b;
+        }
+
+        .highlight-dark .number {
+            color: #1e2a3a;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 38px 0 18px 0;
+            padding-bottom: 8px;
+            border-bottom: 3px solid #e6e0d6;
+            color: #1a1a1a;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title span {
+            background: #b31b1b;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 2px 14px;
+            border-radius: 40px;
+            letter-spacing: 0.03em;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+            margin: 10px 0 16px 0;
+        }
+
+        .footnote-block {
+            background: #f3f0ea;
+            border-radius: 18px;
+            padding: 22px 28px;
+            margin: 40px 0 10px 0;
+            border-left: 6px solid #b31b1b;
+        }
+
+        .footnote-block h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+        }
+
+        .footnote-block ul {
+            list-style: none;
+            padding: 0;
+            columns: 2 280px;
+            column-gap: 30px;
+        }
+
+        .footnote-block ul li {
+            font-size: 0.78rem;
+            color: #3d3d3d;
+            margin-bottom: 5px;
+            padding-left: 18px;
+            position: relative;
+            line-height: 1.5;
+            break-inside: avoid;
+        }
+
+        .footnote-block ul li::before {
+            content: "●";
+            color: #b31b1b;
+            font-size: 0.5rem;
+            position: absolute;
+            left: 2px;
+            top: 0.3rem;
+        }
+
+        .footnote-block ul li a {
+            color: #1a1a1a;
+            text-decoration: none;
+            border-bottom: 1px dotted #b9b0a3;
+        }
+
+        .footnote-block ul li a:hover {
+            color: #b31b1b;
+            border-bottom-color: #b31b1b;
+        }
+
+        .meta {
+            font-size: 0.7rem;
+            color: #7a7267;
+            text-align: right;
+            margin-top: 28px;
+            border-top: 1px solid #e6e0d6;
+            padding-top: 18px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #1e2a3a;
+            color: white;
+            font-size: 0.6rem;
+            padding: 2px 12px;
+            border-radius: 40px;
+            margin-left: 6px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 700px) {
+            .container { padding: 20px 15px; }
+            h1 { font-size: 1.9rem; padding-left: 14px; }
+            .subhead { font-size: 0.9rem; margin-left: 14px; }
+            .two-col { grid-template-columns: 1fr; gap: 16px; }
+            .card .number { font-size: 2rem; }
+            .footnote-block ul { columns: 1; }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <h1>🎓 Scolasticidio a Gaza – Università</h1>
+    <div class="subhead">
+        <strong>Istruzione superiore sotto attacco</strong> – Dati specifici per le università e gli istituti di istruzione superiore nella Striscia di Gaza. Aggiornati al 2025.
+    </div>
+
+    <!-- CARD PRINCIPALI – UNIVERSITÀ -->
+    <div class="grid">
+        <div class="card highlight-red">
+            <div class="label">Campus colpiti</div>
+            <div class="number">95%</div>
+            <div class="desc">dei campus universitari hanno subito danni gravi o sono stati distrutti.</div>
+            <div class="source">Fonte: <a href="https://www.unesco.org/en/articles/unesco-presents-assessment-damage-and-reconstruction-needs-higher-education-institutions-gaza" target="_blank">UNESCO, 2025</a></div>
+        </div>
+        <div class="card highlight-red">
+            <div class="label">Campus completamente distrutti</div>
+            <div class="number">22 <span class="small">su 38</span></div>
+            <div class="desc">22 campus universitari su 38 sono stati rasi al suolo.</div>
+            <div class="source">Fonte: <a href="https://www.unesco.org/en/articles/unesco-presents-assessment-damage-and-reconstruction-needs-higher-education-institutions-gaza" target="_blank">UNESCO, 2025</a></div>
+        </div>
+        <div class="card highlight-red">
+            <div class="label">Edifici universitari distrutti</div>
+            <div class="number">195 <span class="small">su 206</span></div>
+            <div class="desc">edifici universitari distrutti o con danni gravi, non operativi.</div>
+            <div class="source">Fonte: <a href="https://www.unesco.org/en/articles/unesco-presents-assessment-damage-and-reconstruction-needs-higher-education-institutions-gaza" target="_blank">UNESCO, 2025</a></div>
+        </div>
+        <div class="card highlight-red">
+            <div class="label">Studenti universitari senza istruzione</div>
+            <div class="number">87.000</div>
+            <div class="desc">studenti universitari hanno perso l'accesso all'istruzione a causa della distruzione delle università.</div>
+            <div class="source">Fonte: <a href="https://www.un.org/unispal/document/after-two-years-of-war-gazas-education-system-on-the-brink-of-collapse-unicef/" target="_blank">UNICEF / UN, 2025</a></div>
+        </div>
+    </div>
+
+    <!-- SEZIONE EDIFICI UNIVERSITARI – DANNI SPECIFICI -->
+    <div class="section-title">
+        🏛️ Danni alle università
+        <span>dettaglio per ateneo</span>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <div class="label">Università Islamic University of Gaza</div>
+            <div class="number">59%</div>
+            <div class="desc">distrutta: 10 edifici completamente distrutti, 7 parzialmente.</div>
+            <div class="source">Fonte: <a href="https://link.springer.com/article/10.1007/s44217-026-01570-2" target="_blank">Springer, 2025</a></div>
+        </div>
+        <div class="card">
+            <div class="label">Università Al-Azhar University</div>
+            <div class="number">78%</div>
+            <div class="desc">infrastruttura colpita: 5 edifici completamente distrutti, 18 parzialmente.</div>
+            <div class="source">Fonte: <a href="https://link.springer.com/article/10.1007/s44217-026-01570-2" target="_blank">Springer, 2025</a></div>
+        </div>
+        <div class="card">
+            <div class="label">Università Al-Isra e Al-Aqsa</div>
+            <div class="number">100%</div>
+            <div class="desc">completamente distrutte, impossibili da riutilizzare.</div>
+            <div class="source">Fonte: <a href="https://link.springer.com/article/10.1007/s44217-026-01570-2" target="_blank">Springer, 2025</a></div>
+        </div>
+        <div class="card">
+            <div class="label">Danni totali stimati</div>
+            <div class="number">$373M</div>
+            <div class="desc">costo stimato dei danni alle infrastrutture universitarie.</div>
+            <div class="source">Fonte: <a href="https://www.unesco.org/en/articles/unesco-presents-assessment-damage-and-reconstruction-needs-higher-education-institutions-gaza" target="_blank">UNESCO, 2025</a></div>
+        </div>
+    </div>
+
+    <!-- SEZIONE VITTIME TRA STUDENTI E DOCENTI UNIVERSITARI -->
+    <div class="section-title">
+        🕯️ Vittime tra studenti e docenti universitari
+        <span>dal 7 ottobre 2023</span>
+    </div>
+
+    <div class="grid">
+        <div class="card highlight-red">
+            <div class="label">Studenti universitari uccisi</div>
+            <div class="number">1.271</div>
+            <div class="desc">studenti universitari uccisi a Gaza (dato complessivo).</div>
+            <div class="source">Fonte: <a href="https://www.un.org/unispal/document/after-two-years-of-war-gazas-education-system-on-the-brink-of-collapse-unicef/" target="_blank">UN, 2025</a></div>
+        </div>
+        <div class="card highlight-red">
+            <div class="label">Studenti universitari uccisi (2025)</div>
+            <div class="number">578</div>
+            <div class="desc">solo nel 2025, studenti universitari uccisi a Gaza.</div>
+            <div class="source">Fonte: <a href="https://www.alquds.com/en/posts/2026/01/01/the-israeli-army-killed-7903-students-and-educational-staff-and-injured-11469-during-2025" target="_blank">Al-Quds, 2026</a></div>
+        </div>
+        <div class="card highlight-red">
+            <div class="label">Docenti e ricercatori uccisi</div>
+            <div class="number">193</div>
+            <div class="desc">accademici, professori e ricercatori universitari uccisi.</div>
+            <div class="source">Fonte: <a href="https://www.aa.com.tr/en/middle-east/gaza-strip-university-buildings-destroyed-academics-killed-in-israeli-attacks/3462731" target="_blank">Anadolu Agency, 2025</a></div>
+        </div>
+        <div class="card highlight-red">
+            <div class="label">Personale universitario ucciso/ferito</div>
+            <div class="number">1.112</div>
+            <div class="desc">membri del personale universitario uccisi, detenuti o feriti (22% della forza lavoro).</div>
+            <div class="source">Fonte: <a href="https://www.unesco.org/en/articles/unesco-presents-assessment-damage-and-reconstruction-needs-higher-education-institutions-gaza" target="_blank">UNESCO, 2025</a></div>
+        </div>
+    </div>
+
+    <!-- SEZIONE IMPATTO SULL'ISTRUZIONE SUPERIORE -->
+    <div class="section-title">
+        📚 Impatto sull'istruzione superiore
+        <span>perdita di conoscenza e futuro</span>
+    </div>
+
+    <div class="two-col">
+        <div class="card">
+            <div class="label">Laboratori e strutture specializzate distrutte</div>
+            <div class="number">620</div>
+            <div class="desc">laboratori e strutture specializzate distrutte o gravemente danneggiate.</div>
+            <div class="source">Fonte: <a href="https://www.unesco.org/en/articles/unesco-presents-assessment-damage-and-reconstruction-needs-higher-education-institutions-gaza" target="_blank">UNESCO, 2025</a></div>
+        </div>
+        <div class="card">
+            <div class="label">PC/Laptop distrutti</div>
+            <div class="number">120.000</div>
+            <div class="desc">computer e laptop distrutti o gravemente danneggiati.</div>
+            <div class="source">Fonte: <a href="https://www.unesco.org/en/articles/unesco-presents-assessment-damage-and-reconstruction-needs-higher-education-institutions-gaza" target="_blank">UNESCO, 2025</a></div>
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <div class="label">Università trasformate in rifugi</div>
+            <div class="number">17</div>
+            <div class="desc">tutte le 17 università di Gaza sono state colpite e molte ospitano famiglie sfollate.</div>
+            <div class="source">Fonte: <a href="https://apnews.com/article/islamic-university-gaza-tent-camp-photos-4c0c7f376bb989625991aa62a5d0fe6f" target="_blank">AP News, 2025</a></div>
+        </div>
+        <div class="card">
+            <div class="label">Studenti universitari sfollati</div>
+            <div class="number">100.000</div>
+            <div class="desc">studenti universitari che vivono in condizioni di sfollamento.</div>
+            <div class="source">Fonte: <a href="https://www.saba.ye/fr/news3482647.htm" target="_blank">Ministero dell'Istruzione di Gaza, 2025</a></div>
+        </div>
+        <div class="card">
+            <div class="label">Perdita di due anni accademici</div>
+            <div class="number">750.000+</div>
+            <div class="desc">studenti di tutti i livelli, inclusi quelli universitari, hanno perso due anni di istruzione.</div>
+            <div class="source">Fonte: <a href="https://www.aljazeera.com/news/2025/12/20/islamic-university-of-gaza-resumes-classes-on-site-amid-israeli-destruction" target="_blank">Al Jazeera, 2025</a></div>
+        </div>
+        <div class="card">
+            <div class="label">Distruzione del sistema educativo</div>
+            <div class="number">90%</div>
+            <div class="desc">oltre il 90% degli edifici scolastici e universitari di Gaza è stato distrutto o danneggiato.</div>
+            <div class="source">Fonte: <a href="https://news.un.org/en/story/2025/06/1159991" target="_blank">UN Commission of Inquiry, 2025</a></div>
+        </div>
+    </div>
+
+    <!-- NOTA SUI DATI -->
+    <div style="background: #f7f4ee; border-radius: 16px; padding: 18px 22px; margin: 30px 0 10px 0; border: 1px solid #e0dad2;">
+        <p style="font-size: 0.85rem; color: #3d3d3d; line-height: 1.5;">
+            <strong>📌 Nota metodologica:</strong> I dati si riferiscono specificamente all'istruzione superiore (università, college e istituti tecnici) nella Striscia di Gaza. Le cifre sono state ricavate da rapporti di UNESCO, UN OCHA, UN Commission of Inquiry, AP News, Al Jazeera, Anadolu Agency, Springer e dai ministeri dell'istruzione palestinesi. Le stime possono variare leggermente a seconda delle fonti e del periodo di rilevazione.
+        </p>
+    </div>
+
+    <!-- ELENCO COMPLETO DELLE FONTI (per trasparenza) -->
+    <div class="footnote-block">
+        <h3>📚 Fonti e referenze complete</h3>
+        <ul>
+            <li><a href="https://www.unesco.org/en/articles/unesco-presents-assessment-damage-and-reconstruction-needs-higher-education-institutions-gaza" target="_blank">UNESCO – Assessment of damage and reconstruction needs for higher education institutions in Gaza (2025)</a></li>
+            <li><a href="https://www.un.org/unispal/document/after-two-years-of-war-gazas-education-system-on-the-brink-of-collapse-unicef/" target="_blank">UNICEF – After two years of war: Gaza’s education system on the brink of collapse (2025)</a></li>
+            <li><a href="https://news.un.org/en/story/2025/06/1159991" target="_blank">UN Commission of Inquiry – Israeli attacks on Gaza schools could be crimes against humanity (2025)</a></li>
+            <li><a href="https://reliefweb.int/report/occupied-palestinian-territory/scholasticide-continues-israels-ongoing-destruction-gazas-education-system-jeopardizes-entire-generations-future-enar" target="_blank">UN OCHA – Scholasticide Continues (2025)</a></li>
+            <li><a href="https://apnews.com/article/islamic-university-gaza-tent-camp-photos-4c0c7f376bb989625991aa62a5d0fe6f" target="_blank">AP News – Islamic University of Gaza becomes a shelter for displaced Palestinians (2025)</a></li>
+            <li><a href="https://www.aljazeera.com/news/2025/12/20/islamic-university-of-gaza-resumes-classes-on-site-amid-israeli-destruction" target="_blank">Al Jazeera – Islamic University of Gaza resumes classes amid destruction (2025)</a></li>
+            <li><a href="https://www.aa.com.tr/en/middle-east/gaza-strip-university-buildings-destroyed-academics-killed-in-israeli-attacks/3462731" target="_blank">Anadolu Agency – University buildings destroyed, academics killed (2025)</a></li>
+            <li><a href="https://link.springer.com/article/10.1007/s44217-026-01570-2" target="_blank">Springer – Effects of the prolonged war in Gaza on higher education (2025)</a></li>
+            <li><a href="https://www.saba.ye/fr/news3482647.htm" target="_blank">SABA – 13,000 students and 800 teachers martyred, 150 university professors assassinated (2025)</a></li>
+            <li><a href="https://www.alquds.com/en/posts/2026/01/01/the-israeli-army-killed-7903-students-and-educational-staff-and-injured-11469-during-2025" target="_blank">Al-Quds – Israeli Army Killed 7,903 Students and Educational Staff (2026)</a></li>
+        </ul>
+    </div>
+
+    <div class="meta">
+        Infografica dedicata alle università di Gaza – dati aggiornati al 2025. Tutte le fonti sono cliccabili e verificabili.
+    </div>
+
+</div>
+</body>
+</html>

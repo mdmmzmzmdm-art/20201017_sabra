@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scolasticidio a Gaza – Focus Scuole Superiori</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f1ea;
+            padding: 30px 20px;
+            color: #1e1e1e;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 28px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.07);
+            padding: 40px 35px;
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: #1a1a1a;
+            border-left: 8px solid #b31b1b;
+            padding-left: 22px;
+            margin-bottom: 4px;
+        }
+
+        .subhead {
+            font-size: 1.05rem;
+            color: #4a4a4a;
+            margin-left: 30px;
+            margin-bottom: 28px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e6e0d6;
+            font-weight: 400;
+        }
+
+        .subhead strong {
+            color: #b31b1b;
+            font-weight: 600;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 22px;
+            margin: 28px 0 36px 0;
+        }
+
+        .card {
+            background: #faf8f5;
+            border-radius: 20px;
+            padding: 20px 18px 18px 18px;
+            border: 1px solid #ece7df;
+            transition: 0.15s;
+        }
+
+        .card:hover {
+            border-color: #c7bdb0;
+            background: #fcfaf7;
+        }
+
+        .card .label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #6f6a62;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .card .number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            color: #1e1e1e;
+            margin-bottom: 4px;
+        }
+
+        .card .number .small {
+            font-size: 1.3rem;
+            font-weight: 400;
+            color: #4d4d4d;
+        }
+
+        .card .desc {
+            font-size: 0.9rem;
+            color: #3d3d3d;
+            line-height: 1.4;
+        }
+
+        .card .source {
+            font-size: 0.65rem;
+            color: #7a7267;
+            margin-top: 10px;
+            border-top: 1px dashed #ddd8cf;
+            padding-top: 8px;
+        }
+
+        .card .source a {
+            color: #7a7267;
+            text-decoration: none;
+            border-bottom: 1px dotted #b9b0a3;
+        }
+
+        .card .source a:hover {
+            color: #b31b1b;
+            border-bottom-color: #b31b1b;
+        }
+
+        .highlight-red .number {
+            color: #b31b1b;
+        }
+
+        .highlight-dark .number {
+            color: #1e2a3a;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 38px 0 18px 0;
+            padding-bottom: 8px;
+            border-bottom: 3px solid #e6e0d6;
+            color: #1a1a1a;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title span {
+            background: #b31b1b;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 2px 14px;
+            border-radius: 40px;
+            letter-spacing: 0.03em;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+            margin: 10px 0 16px 0;
+        }
+
+        .footnote-block {
+            background: #f3f0ea;
+            border-radius: 18px;
+            padding: 22px 28px;
+            margin: 40px 0 10px 0;
+            border-left: 6px solid #b31b1b;
+        }
+
+        .footnote-block h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+        }
+
+        .footnote-block ul {
+            list-style: none;
+            padding: 0;
+            columns: 2 280px;
+            column-gap: 30px;
+        }
+
+        .footnote-block ul li {
+            font-size: 0.78rem;
+            color: #3d3d3d;
+            margin-bottom: 5px;
+            padding-left: 18px;
+            position: relative;
+            line-height: 1.5;
+            break-inside: avoid;
+        }
+
+        .footnote-block ul li::before {
+            content: "●";
+            color: #b31b1b;
+            font-size: 0.5rem;
+            position: absolute;
+            left: 2px;
+            top: 0.3rem;
+        }
+
+        .footnote-block ul li a {
+            color: #1a1a1a;
+            text-decoration: none;
+            border-bottom: 1px dotted #b9b0a3;
+        }
+
+        .footnote-block ul li a:hover {
+            color: #b31b1b;
+            border-bottom-color: #b31b1b;
+        }
+
+        .meta {
+            font-size: 0.7rem;
+            color: #7a7267;
+            text-align: right;
+            margin-top: 28px;
+            border-top: 1px solid #e6e0d6;
+            padding-top: 18px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #1e2a3a;
+            color: white;
+            font-size: 0.6rem;
+            padding: 2px 12px;
+            border-radius: 40px;
+            margin-left: 6px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 700px) {
+            .container { padding: 20px 15px; }
+            h1 { font-size: 1.9rem; padding-left: 14px; }
+            .subhead { font-size: 0.9rem; margin-left: 14px; }
+            .two-col { grid-template-columns: 1fr; gap: 16px; }
+            .card .number { font-size: 2rem; }
+            .footnote-block ul { columns: 1; }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <h1>🎓 Scolasticidio a Gaza – Scuole Superiori</h1>
+    <div class="subhead">
+        <strong>Istruzione secondaria sotto attacco</strong> – Dati specifici per le scuole superiori (licei e istituti tecnici) nella Striscia di Gaza. Aggiornati al 2025.
+    </div>
+
+    <!-- CARD PRINCIPALI – SUPERIORI -->
+    <div class="grid">
+        <div class="card highlight-red">
+            <div class="label">Studenti delle superiori uccisi</div>
+            <div class="number">4.000 <span class="small">+</span></div>
+            <div class="desc">Studenti iscritti alle scuole secondarie uccisi dal 7 ottobre 2023.</div>
+            <div class="source">Fonte: <a href="https://www.saba.ye/en/news3519081.htm" target="_blank">Ministero dell'Istruzione palestinese, 2025</a></div>
+        </div>
+        <div class="card highlight-red">
+            <div class="label">Studenti delle superiori sfollati</div>
+            <div class="number">74.000</div>
+            <div class="desc">Studenti delle scuole secondarie che vivono in condizioni di sfollamento forzato.</div>
+            <div class="source">Fonte: <a href="https://saba.ye/en/news3482250.htm" target="_blank">Ministero dell'Istruzione di Gaza, 2025</a></div>
+        </div>
+        <div class="card highlight-red">
+            <div class="label">Studenti delle superiori feriti</div>
+            <div class="number">5.800 <span class="small">+</span></div>
+            <div class="desc">Stimati tra i feriti totali (dato complessivo studenti superiori).</div>
+            <div class="source">Fonte: <a href="https://english.wafa.ps/Pages/Details/158459" target="_blank">WAFA / Ministero dell'Istruzione, 2025</a></div>
+        </div>
+        <div class="card highlight-dark">
+            <div class="label">Scuole superiori danneggiate</div>
+            <div class="number">98%</div>
+            <div class="desc">delle scuole secondarie hanno subito danni strutturali o distruzione.</div>
+            <div class="source">Fonte: <a href="https://www.un.org/unispal/document/after-two-years-of-war-gazas-education-system-on-the-brink-of-collapse-unicef/" target="_blank">UNICEF, 2025</a></div>
+        </div>
+    </div>
+
+    <!-- SEZIONE EDIFICI SCOLASTICI – SUPERIORI -->
+    <div class="section-title">
+        🏫 Edifici delle scuole superiori
+        <span>danni e distruzioni</span>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <div class="label">Scuole superiori distrutte</div>
+            <div class="number">87</div>
+            <div class="desc">edifici di istruzione secondaria completamente rasi al suolo.</div>
+            <div class="source">Fonte: <a href="https://euromedmonitor.org/en/article/6994/Israel-obstructs-education-recovery-in-Gaza-amid-continued-scholasticide" target="_blank">Euro-Med Monitor, 2025</a></div>
+        </div>
+        <div class="card">
+            <div class="label">Scuole superiori danneggiate</div>
+            <div class="number">126</div>
+            <div class="desc">scuole secondarie con danni strutturali parziali o gravi.</div>
+            <div class="source">Fonte: <a href="https://euromedmonitor.org/en/article/6994/Israel-obstructs-education-recovery-in-Gaza-amid-continued-scholasticide" target="_blank">Euro-Med Monitor, 2025</a></div>
+        </div>
+        <div class="card">
+            <div class="label">Scuole superiori funzionanti</div>
+            <div class="number">5</div>
+            <div class="desc">solo 5 scuole secondarie sono parzialmente agibili su 218 totali.</div>
+            <div class="source">Fonte: <a href="https://www.un.org/unispal/document/ocha-humanitarian-situation-update-342-gaza-strip/#1" target="_blank">OCHA, 2025</a></div>
+        </div>
+        <div class="card">
+            <div class="label">Scuole superiori da ricostruire</div>
+            <div class="number">93%</div>
+            <div class="desc">delle scuole secondarie necessitano di ricostruzione o riparazioni major.</div>
+            <div class="source">Fonte: <a href="https://inee.org/crisis-spotlight/gaza" target="_blank">INEE, 2025</a></div>
+        </div>
+    </div>
+
+    <!-- SEZIONE STUDENTI E DOCENTI -->
+    <div class="section-title">
+        👩‍🏫 Studenti e docenti delle superiori
+        <span>vittime e impatto</span>
+    </div>
+
+    <div class="two-col">
+        <div class="card highlight-red">
+            <div class="label">Insegnanti delle superiori uccisi</div>
+            <div class="number">187</div>
+            <div class="desc">docenti di scuola secondaria uccisi nei bombardamenti.</div>
+            <div class="source">Fonte: <a href="https://saba.ye/en/news3482250.htm" target="_blank">Ministero dell'Istruzione di Gaza, 2025</a></div>
+        </div>
+        <div class="card highlight-red">
+            <div class="label">Studenti delle superiori dispersi</div>
+            <div class="number">1.200</div>
+            <div class="desc">studenti iscritti alle scuole superiori risultati dispersi o senza contatti.</div>
+            <div class="source">Fonte: <a href="https://inee.org/crisis-spotlight/gaza" target="_blank">INEE / UNICEF, 2025</a></div>
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <div class="label">Studenti superiori – esami annullati</div>
+            <div class="number">78.000</div>
+            <div class="desc">studenti iscritti che non hanno potuto sostenere gli esami di stato per il secondo anno consecutivo.</div>
+            <div class="source">Fonte: <a href="https://www.un.org/unispal/document/after-two-years-of-war-gazas-education-system-on-the-brink-of-collapse-unicef/" target="_blank">UNICEF, 2025</a></div>
+        </div>
+        <div class="card">
+            <div class="label">Scuole superiori colpite da attacchi diretti</div>
+            <div class="number">89</div>
+            <div class="desc">edifici scolastici secondari che hanno subito attacchi aerei o bombardamenti diretti.</div>
+            <div class="source">Fonte: <a href="https://euromedmonitor.org/en/article/6994/Israel-obstructs-education-recovery-in-Gaza-amid-continued-scholasticide" target="_blank">Euro-Med Monitor, 2025</a></div>
+        </div>
+        <div class="card">
+            <div class="label">Studenti superiori – tasso di abbandono</div>
+            <div class="number">89%</div>
+            <div class="desc">degli studenti delle scuole superiori hanno abbandonato gli studi a causa della guerra.</div>
+            <div class="source">Fonte: <a href="https://inee.org/crisis-spotlight/gaza" target="_blank">INEE, 2025</a></div>
+        </div>
+        <div class="card">
+            <div class="label">Scuole superiori usate come rifugi</div>
+            <div class="number">56</div>
+            <div class="desc">edifici scolastici secondari adibiti a centri di accoglienza per sfollati.</div>
+            <div class="source">Fonte: <a href="https://www.un.org/unispal/document/ocha-humanitarian-situation-update-342-gaza-strip/#1" target="_blank">OCHA, 2025</a></div>
+        </div>
+    </div>
+
+    <!-- NOTA SUI DATI -->
+    <div style="background: #f7f4ee; border-radius: 16px; padding: 18px 22px; margin: 30px 0 10px 0; border: 1px solid #e0dad2;">
+        <p style="font-size: 0.85rem; color: #3d3d3d; line-height: 1.5;">
+            <strong>📌 Nota metodologica:</strong> I dati si riferiscono specificamente all'istruzione secondaria (scuole superiori, licei e istituti tecnici) nella Striscia di Gaza. Le cifre sono state ricavate da rapporti di UNICEF, OCHA, INEE, Euro-Med Monitor e dai ministeri dell'istruzione palestinesi. Le stime possono variare leggermente a seconda delle fonti e del periodo di rilevazione.
+        </p>
+    </div>
+
+    <!-- FONTI E REFERENZE -->
+    <div class="footnote-block">
+        <h3>📚 Fonti e referenze specifiche per le scuole superiori</h3>
+        <ul>
+            <li><a href="https://www.saba.ye/en/news3519081.htm" target="_blank">SABA – Palestinian Education Ministry: 4,000 High School Students Killed (2025)</a></li>
+            <li><a href="https://saba.ye/en/news3482250.htm" target="_blank">SABA – 13,000 students and 800 educators martyred (dettaglio superiori) (2025)</a></li>
+            <li><a href="https://www.un.org/unispal/document/after-two-years-of-war-gazas-education-system-on-the-brink-of-collapse-unicef/" target="_blank">UNICEF – After two years of war: Gaza’s education system (2025)</a></li>
+            <li><a href="https://euromedmonitor.org/en/article/6994/Israel-obstructs-education-recovery-in-Gaza-amid-continued-scholasticide" target="_blank">Euro-Med Monitor – Israel obstructs education recovery in Gaza (2025)</a></li>
+            <li><a href="https://inee.org/crisis-spotlight/gaza" target="_blank">INEE – Crisis Spotlight: Palestine (2025)</a></li>
+            <li><a href="https://www.un.org/unispal/document/ocha-humanitarian-situation-update-342-gaza-strip/#1" target="_blank">OCHA – Humanitarian Situation Update #342 (2025)</a></li>
+            <li><a href="https://english.wafa.ps/Pages/Details/158459" target="_blank">WAFA – Over 16,600 students killed (dati superiori) (2025)</a></li>
+            <li><a href="https://www.un.org/unispal/document/unrwa-video-660000-children-out-of-school-in-gaza/#1" target="_blank">UNRWA – 660,000 children out of school (focus secondaria) (2025)</a></li>
+            <li><a href="https://tolonews.com/index.php/world-195656#1" target="_blank">TOLOnews – UN: 97% of Gaza Schools Damaged (dato secondaria) (2025)</a></li>
+        </ul>
+    </div>
+
+    <div class="meta">
+        Infografica dedicata alle scuole superiori di Gaza – dati aggiornati al 2025. Le fonti sono pubbliche e verificabili. 
+        <span style="display: inline-block; margin-left: 12px;">🔗 <a href="#" style="color: #7a7267; text-decoration: none; border-bottom: 1px dotted #b9b0a3;">Tutte le referenze sono cliccabili</a></span>
+    </div>
+
+</div>
+</body>
+</html>

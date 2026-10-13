@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mappa Università di Gaza – Scolasticidio</title>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #eef2f0;
+        }
+
+        /* MAPPA A TUTTO SCHERMO */
+        #map {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            background: #dce5df;
+        }
+
+        /* ---------- PANNELLO TITOLO (in alto a sinistra) ---------- */
+        .title-panel {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            z-index: 500;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border-radius: 16px;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.15);
+            border-left: 6px solid #b31b1b;
+            max-width: 380px;
+            overflow: hidden;
+            transition: max-width 0.3s;
+        }
+
+        .title-panel .title-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .title-panel .title-header h1 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            flex: 1;
+        }
+
+        .title-panel .toggle-icon {
+            font-size: 0.85rem;
+            color: #b31b1b;
+            transition: transform 0.25s;
+        }
+
+        .title-panel.collapsed .toggle-icon { transform: rotate(-90deg); }
+
+        .title-panel .title-body {
+            padding: 0 16px 14px 16px;
+            font-size: 0.82rem;
+            color: #4a4a4a;
+            line-height: 1.45;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+
+        .title-panel.collapsed .title-body { display: none; }
+
+        .title-panel .title-body strong { color: #b31b1b; font-weight: 600; }
+
+        /* ---------- LEGENDA (in basso a sinistra) ---------- */
+        .legend {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            z-index: 500;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border-radius: 14px;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.15);
+            padding: 10px 14px;
+            max-width: 320px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 14px;
+            align-items: center;
+            transition: transform 0.25s;
+        }
+
+        .legend-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #4a4a4a;
+            letter-spacing: 0.03em;
+            width: 100%;
+            margin-bottom: 2px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.68rem;
+            color: #2d2d2d;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 1px solid rgba(0,0,0,0.2);
+            flex-shrink: 0;
+        }
+
+        /* ---------- PULSANTE + DRAWER FONTI (in basso a destra) ---------- */
+        .sources-btn {
+            position: absolute;
+            bottom: 16px;
+            right: 16px;
+            z-index: 600;
+            background: #1e293b;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .sources-btn:hover { background: #0f172a; }
+        .sources-btn:active { transform: scale(0.97); }
+
+        .sources-drawer {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 400px;
+            max-width: 92vw;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: -8px 0 30px rgba(0,0,0,0.20);
+            z-index: 700;
+            transform: translateX(105%);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sources-drawer.open { transform: translateX(0); }
+
+        .sources-drawer .drawer-header {
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #e0dad2;
+        }
+
+        .sources-drawer .drawer-header h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sources-drawer .drawer-close {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            color: #999;
+            line-height: 1;
+            padding: 4px 8px;
+        }
+
+        .sources-drawer .drawer-close:hover { color: #b31b1b; }
+
+        .sources-drawer .drawer-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 14px 20px 24px 20px;
+        }
+
+        .sources-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 6px;
+            font-size: 0.78rem;
+            color: #3d3d3d;
+        }
+
+        .sources-grid .source-item {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 6px;
+            padding: 6px 0;
+            border-bottom: 1px dashed #e8e3da;
+        }
+
+        .sources-grid .source-item .univ-name {
+            font-weight: 600;
+            color: #2d2d2d;
+            min-width: 100%;
+        }
+
+        .sources-grid .source-item .univ-source a {
+            color: #7a7267;
+            text-decoration: none;
+            border-bottom: 1px dotted #b9b0a3;
+        }
+
+        .sources-grid .source-item .univ-source a:hover {
+            color: #b31b1b;
+            border-bottom-color: #b31b1b;
+        }
+
+        .sources-note {
+            margin-top: 14px;
+            font-size: 0.72rem;
+            color: #6a6a6a;
+            border-top: 1px solid #e0dad2;
+            padding-top: 12px;
+            line-height: 1.5;
+        }
+
+        .sources-note strong { color: #b31b1b; }
+
+        .drawer-meta {
+            padding: 12px 20px;
+            font-size: 0.68rem;
+            color: #7a7267;
+            text-align: right;
+            border-top: 1px solid #e0dad2;
+        }
+
+        /* ---------- ETICHETTE UNIVERSITÀ ---------- */
+        .univ-label {
+            font-family: 'Segoe UI', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            text-shadow:
+                -1px -1px 0 white,
+                1px -1px 0 white,
+                -1px 1px 0 white,
+                1px 1px 0 white,
+                0 0 8px rgba(255,255,255,0.8);
+            pointer-events: none;
+            user-select: none;
+            white-space: nowrap;
+        }
+
+        /* ---------- POPUP DRAGGABILI ---------- */
+        .custom-popup {
+            position: absolute;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+            font-family: 'Segoe UI', sans-serif;
+            max-width: 240px;
+            min-width: 180px;
+            padding: 12px 14px;
+            cursor: grab;
+            z-index: 1000;
+            border: 1px solid #e0dad2;
+            user-select: none;
+            touch-action: none;
+        }
+
+        .custom-popup:active { cursor: grabbing; }
+
+        .custom-popup .popup-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 3px;
+            display: block;
+        }
+
+        .custom-popup .popup-status {
+            display: inline-block;
+            color: white;
+            padding: 2px 14px;
+            border-radius: 40px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .custom-popup .popup-detail {
+            font-size: 0.78rem;
+            color: #3d3d3d;
+            margin: 5px 0 4px 0;
+            line-height: 1.4;
+        }
+
+        .custom-popup .popup-source {
+            font-size: 0.6rem;
+            color: #7a7267;
+            border-top: 1px dashed #e0dad2;
+            padding-top: 5px;
+            margin-top: 4px;
+        }
+
+        .custom-popup .popup-source a {
+            color: #7a7267;
+            text-decoration: none;
+            border-bottom: 1px dotted #b9b0a3;
+        }
+
+        .custom-popup .popup-close {
+            position: absolute;
+            top: 6px;
+            right: 8px;
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            cursor: pointer;
+            color: #999;
+            padding: 0 4px;
+            line-height: 1;
+        }
+
+        .custom-popup .popup-close:hover { color: #b31b1b; }
+
+        .custom-popup .drag-handle {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 28px;
+            cursor: grab;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .custom-popup .drag-handle:active { cursor: grabbing; }
+
+        /* ---------- RESPONSIVE ---------- */
+        @media (max-width: 700px) {
+            .title-panel { max-width: calc(100vw - 32px); }
+            .title-panel .title-header h1 { font-size: 0.9rem; }
+            .title-panel .title-body { font-size: 0.75rem; }
+
+            .legend {
+                bottom: 12px;
+                left: 12px;
+                right: 12px;
+                max-width: none;
+                max-height: 30vh;
+                overflow-y: auto;
+            }
+
+            .sources-btn {
+                bottom: 12px;
+                right: 12px;
+                padding: 10px 14px;
+                font-size: 0.75rem;
+            }
+
+            .sources-drawer { width: 100vw; max-width: 100vw; }
+
+            .univ-label { font-size: 11px !important; }
+
+            .custom-popup {
+                max-width: 200px;
+                min-width: 150px;
+                padding: 10px 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .univ-label { font-size: 9px !important; }
+
+            .custom-popup {
+                max-width: 160px;
+                min-width: 130px;
+                padding: 8px 10px;
+            }
+
+            .custom-popup .popup-title { font-size: 0.85rem; }
+            .custom-popup .popup-detail { font-size: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MAPPA -->
+    <div id="map"></div>
+
+    <!-- TITOLO FLOTTANTE -->
+    <div class="title-panel" id="titlePanel">
+        <div class="title-header" onclick="document.getElementById('titlePanel').classList.toggle('collapsed')">
+            <h1>🗺️ Mappa delle Università di Gaza</h1>
+            <span class="toggle-icon">▼</span>
+        </div>
+        <div class="title-body">
+            <strong>Tutte le sedi di Al-Azhar e degli altri atenei</strong> – Ogni università ha un colore diverso.
+            Clicca su ogni area per aprire un popup con i dettagli sui danni.
+            I popup sono <strong>draggabili</strong> e possono restare aperti contemporaneamente.
+        </div>
+    </div>
+
+    <!-- LEGENDA FLOTTANTE -->
+    <div class="legend" id="legendContainer">
+        <span class="legend-title">LEGENDA COLORI</span>
+    </div>
+
+    <!-- PULSANTE FONTI -->
+    <button class="sources-btn" id="sourcesBtn" type="button">
+        📚 Fonti dei dati
+    </button>
+
+    <!-- DRAWER FONTI -->
+    <aside class="sources-drawer" id="sourcesDrawer">
+        <div class="drawer-header">
+            <h3>📚 Fonti dei dati</h3>
+            <button class="drawer-close" id="drawerClose" aria-label="Chiudi">✕</button>
+        </div>
+        <div class="drawer-body">
+            <div class="sources-grid">
+                <div class="source-item">
+                    <span class="univ-name">Islamic University of Gaza</span>
+                    <span class="univ-source"><a href="https://he.wikipedia.org/wiki/%D7%94%D7%90%D7%95%D7%A0%D7%99%D7%91%D7%A8%D7%A1%D7%99%D7%98%D7%94_%D7%94%D7%90%D7%A1%D7%9C%D7%90%D7%9E%D7%99%D7%AA_%D7%91%D7%A2%D7%96%D7%94" target="_blank">Wikipedia (confini)</a> / <a href="https://link.springer.com/article/10.1007/s44217-026-01570-2" target="_blank">Springer (danni)</a></span>
+                </div>
+                <div class="source-item">
+                    <span class="univ-name">Al-Azhar (Gaza City)</span>
+                    <span class="univ-source"><a href="https://es.wikipedia.org/wiki/Universidad_de_al-Azhar_de_Gaza" target="_blank">Wikipedia</a> / <a href="https://link.springer.com/article/10.1007/s44217-026-01570-2" target="_blank">Springer</a></span>
+                </div>
+                <div class="source-item">
+                    <span class="univ-name">Al-Azhar (Khan Yunis)</span>
+                    <span class="univ-source"><a href="https://es.wikipedia.org/wiki/Universidad_de_al-Azhar_de_Gaza" target="_blank">Wikipedia</a> / <a href="https://link.springer.com/article/10.1007/s44217-026-01570-2" target="_blank">Springer</a></span>
+                </div>
+                <div class="source-item">
+                    <span class="univ-name">Al-Azhar (Al-Mughraqa)</span>
+                    <span class="univ-source"><a href="https://es.wikipedia.org/wiki/Universidad_de_al-Azhar_de_Gaza" target="_blank">Wikipedia</a> / <a href="https://link.springer.com/article/10.1007/s44217-026-01570-2" target="_blank">Springer</a></span>
+                </div>
+                <div class="source-item">
+                    <span class="univ-name">Al-Azhar (Beit Hanoun)</span>
+                    <span class="univ-source"><a href="https://www.amnestyusa.org" target="_blank">Amnesty International</a> / <a href="https://link.springer.com/article/10.1007/s44217-026-01570-2" target="_blank">Springer</a></span>
+                </div>
+                <div class="source-item">
+                    <span class="univ-name">Al-Aqsa University</span>
+                    <span class="univ-source"><a href="https://es.wikipedia.org/wiki/Universidad_Al-Aqsa" target="_blank">Wikipedia</a> / <a href="https://link.springer.com/article/10.1007/s44217-026-01570-2" target="_blank">Springer</a></span>
+                </div>
+                <div class="source-item">
+                    <span class="univ-name">Al-Isra University</span>
+                    <span class="univ-source"><a href="https://en.wikipedia.org/wiki/Israa_University_(Palestine)" target="_blank">Wikipedia</a> / <a href="https://link.springer.com/article/10.1007/s44217-026-01570-2" target="_blank">Springer</a></span>
+                </div>
+                <div class="source-item">
+                    <span class="univ-name">University of Palestine</span>
+                    <span class="univ-source"><a href="https://es.wikipedia.org/wiki/Universidad_de_Palestina" target="_blank">Wikipedia</a> / <a href="https://www.unesco.org/en/articles/unesco-presents-assessment-damage-and-reconstruction-needs-higher-education-institutions-gaza" target="_blank">UNESCO</a></span>
+                </div>
+                <div class="source-item">
+                    <span class="univ-name">Gaza University</span>
+                    <span class="univ-source"><a href="https://reliefweb.int/report/occupied-palestinian-territory/scholasticide-continues-israels-ongoing-destruction-gazas-education-system-jeopardizes-entire-generations-future-enar" target="_blank">UN OCHA</a></span>
+                </div>
+                <div class="source-item">
+                    <span class="univ-name">Palestine Technical College</span>
+                    <span class="univ-source"><a href="https://www.unesco.org/en/articles/unesco-presents-assessment-damage-and-reconstruction-needs-higher-education-institutions-gaza" target="_blank">UNESCO</a></span>
+                </div>
+            </div>
+
+            <div class="sources-note">
+                <strong>Nota:</strong> I contorni degli edifici sono stati ricostruiti sulla base di immagini satellitari e descrizioni dei confini disponibili su Wikipedia e altre fonti aperte antecedenti a settembre 2023. Le informazioni sui livelli di distruzione sono state raccolte da rapporti accademici e istituzionali pubblicati nel 2025. I dati possono variare a seconda della fonte e del periodo di rilevazione.
+            </div>
+        </div>
+        <div class="drawer-meta">
+            Clicca sulle aree colorate per i dettagli. I popup sono trascinabili. Sfondo: Google Maps Hybrid.
+        </div>
+    </aside>
+
+    <!-- Google Maps JavaScript API -->
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwlSoeQ9W2LsaVWLKjSoVlEThbmFDnTj8&callback=initMap"
+        async
+        defer
+    ></script>
+
+    <script>
+        // ---------- DATI UNIVERSITÀ ----------
+        const universityData = {
+            "iug": {
+                "name": "Islamic University of Gaza",
+                "shortName": "IUG",
+                "status": "grave",
+                "statusLabel": "Gravemente danneggiata",
+                "detail": "10 edifici distrutti, 7 gravemente danneggiati. Laboratori e biblioteca principale inagibili.",
+                "source": "Springer, 2025",
+                "sourceUrl": "https://link.springer.com/article/10.1007/s44217-026-01570-2",
+                "color": "#e74c3c",
+                "polygon": [
+                    { lat: 31.5148, lng: 34.4372 },
+                    { lat: 31.5148, lng: 34.4398 },
+                    { lat: 31.5140, lng: 34.4402 },
+                    { lat: 31.5135, lng: 34.4398 },
+                    { lat: 31.5135, lng: 34.4385 },
+                    { lat: 31.5128, lng: 34.4382 },
+                    { lat: 31.5125, lng: 34.4378 },
+                    { lat: 31.5128, lng: 34.4370 },
+                    { lat: 31.5138, lng: 34.4368 }
+                ]
+            },
+            "alazhar": {
+                "name": "Al-Azhar University (Gaza City)",
+                "shortName": "Al-Azhar Gaza",
+                "status": "danneggiata",
+                "statusLabel": "Danneggiata",
+                "detail": "5 edifici completamente distrutti, 18 danneggiati. Facoltà di Scienze e Ingegneria colpite.",
+                "source": "Springer, 2025",
+                "sourceUrl": "https://link.springer.com/article/10.1007/s44217-026-01570-2",
+                "color": "#3498db",
+                "polygon": [
+                    { lat: 31.5158, lng: 34.4358 },
+                    { lat: 31.5158, lng: 34.4376 },
+                    { lat: 31.5150, lng: 34.4380 },
+                    { lat: 31.5148, lng: 34.4376 },
+                    { lat: 31.5148, lng: 34.4366 },
+                    { lat: 31.5142, lng: 34.4362 },
+                    { lat: 31.5142, lng: 34.4354 },
+                    { lat: 31.5150, lng: 34.4350 }
+                ]
+            },
+            "alazhar_khan": {
+                "name": "Al-Azhar University (Khan Yunis)",
+                "shortName": "Al-Azhar Sud",
+                "status": "danneggiata",
+                "statusLabel": "Danneggiata",
+                "detail": "Sede distaccata di Al-Azhar a Khan Yunis. Danni significativi alle strutture didattiche.",
+                "source": "Springer, 2025",
+                "sourceUrl": "https://link.springer.com/article/10.1007/s44217-026-01570-2",
+                "color": "#2ecc71",
+                "polygon": [
+                    { lat: 31.3450, lng: 34.3050 },
+                    { lat: 31.3450, lng: 34.3070 },
+                    { lat: 31.3435, lng: 34.3075 },
+                    { lat: 31.3425, lng: 34.3065 },
+                    { lat: 31.3425, lng: 34.3050 },
+                    { lat: 31.3435, lng: 34.3045 }
+                ]
+            },
+            "alazhar_mughraqa": {
+                "name": "Al-Azhar University (Al-Mughraqa)",
+                "shortName": "Al-Azhar Mugh.",
+                "status": "distrutta",
+                "statusLabel": "Completamente distrutta",
+                "detail": "Nuovo campus di Al-Mughraqa completamente distrutto il 4 novembre 2023. L'edificio era in fase di sviluppo.",
+                "source": "Springer, 2025",
+                "sourceUrl": "https://link.springer.com/article/10.1007/s44217-026-01570-2",
+                "color": "#f1c40f",
+                "polygon": [
+                    { lat: 31.4660, lng: 34.4090 },
+                    { lat: 31.4660, lng: 34.4105 },
+                    { lat: 31.4650, lng: 34.4110 },
+                    { lat: 31.4645, lng: 34.4100 },
+                    { lat: 31.4650, lng: 34.4088 }
+                ]
+            },
+            "alazhar_hanoon": {
+                "name": "Al-Azhar University (Beit Hanoun)",
+                "shortName": "Al-Azhar Nord",
+                "status": "danneggiata",
+                "statusLabel": "Danneggiata",
+                "detail": "Campus di Beit Hanoun, una delle tre sedi di Al-Azhar a Gaza. Danni significativi alle strutture.",
+                "source": "Amnesty International / Springer, 2025",
+                "sourceUrl": "https://link.springer.com/article/10.1007/s44217-026-01570-2",
+                "color": "#e67e22",
+                "polygon": [
+                    { lat: 31.5350, lng: 34.5380 },
+                    { lat: 31.5350, lng: 34.5400 },
+                    { lat: 31.5335, lng: 34.5405 },
+                    { lat: 31.5325, lng: 34.5395 },
+                    { lat: 31.5325, lng: 34.5380 },
+                    { lat: 31.5335, lng: 34.5375 }
+                ]
+            },
+            "alaqsa": {
+                "name": "Al-Aqsa University",
+                "shortName": "Al-Aqsa",
+                "status": "distrutta",
+                "statusLabel": "Completamente distrutta",
+                "detail": "Tutti gli edifici del campus principale sono stati rasi al suolo. Impossibile riutilizzare.",
+                "source": "Springer, 2025",
+                "sourceUrl": "https://link.springer.com/article/10.1007/s44217-026-01570-2",
+                "color": "#9b59b6",
+                "polygon": [
+                    { lat: 31.5128, lng: 34.4392 },
+                    { lat: 31.5128, lng: 34.4410 },
+                    { lat: 31.5120, lng: 34.4415 },
+                    { lat: 31.5110, lng: 34.4410 },
+                    { lat: 31.5105, lng: 34.4400 },
+                    { lat: 31.5110, lng: 34.4390 },
+                    { lat: 31.5118, lng: 34.4388 }
+                ]
+            },
+            "alisra": {
+                "name": "Al-Isra University",
+                "shortName": "Al-Isra",
+                "status": "distrutta",
+                "statusLabel": "Completamente distrutta",
+                "detail": "Campus completamente distrutto. Strutture inagibili e in stato di abbandono.",
+                "source": "Springer, 2025",
+                "sourceUrl": "https://link.springer.com/article/10.1007/s44217-026-01570-2",
+                "color": "#f39c12",
+                "polygon": [
+                    { lat: 31.5242, lng: 34.4512 },
+                    { lat: 31.5242, lng: 34.4530 },
+                    { lat: 31.5230, lng: 34.4538 },
+                    { lat: 31.5220, lng: 34.4530 },
+                    { lat: 31.5220, lng: 34.4512 },
+                    { lat: 31.5230, lng: 34.4508 }
+                ]
+            },
+            "upalestine": {
+                "name": "University of Palestine",
+                "shortName": "UoP",
+                "status": "danneggiata",
+                "statusLabel": "Danneggiata",
+                "detail": "Danni significativi a diverse facoltà. Alcuni edifici sono crollati, altri parzialmente utilizzabili.",
+                "source": "UNESCO, 2025",
+                "sourceUrl": "https://www.unesco.org/en/articles/unesco-presents-assessment-damage-and-reconstruction-needs-higher-education-institutions-gaza",
+                "color": "#1abc9c",
+                "polygon": [
+                    { lat: 31.4768, lng: 34.4022 },
+                    { lat: 31.4768, lng: 34.4040 },
+                    { lat: 31.4756, lng: 34.4048 },
+                    { lat: 31.4748, lng: 34.4040 },
+                    { lat: 31.4748, lng: 34.4022 },
+                    { lat: 31.4758, lng: 34.4018 }
+                ]
+            },
+            "gazauniv": {
+                "name": "Gaza University",
+                "shortName": "Gaza Univ.",
+                "status": "danneggiata",
+                "statusLabel": "Danneggiata",
+                "detail": "Danni strutturali a 3 edifici principali. Aule e laboratori parzialmente distrutti.",
+                "source": "UN OCHA, 2025",
+                "sourceUrl": "https://reliefweb.int/report/occupied-palestinian-territory/scholasticide-continues-israels-ongoing-destruction-gazas-education-system-jeopardizes-entire-generations-future-enar",
+                "color": "#e67e22",
+                "polygon": [
+                    { lat: 31.5082, lng: 34.4720 },
+                    { lat: 31.5082, lng: 34.4735 },
+                    { lat: 31.5072, lng: 34.4742 },
+                    { lat: 31.5062, lng: 34.4735 },
+                    { lat: 31.5060, lng: 34.4722 },
+                    { lat: 31.5068, lng: 34.4715 },
+                    { lat: 31.5078, lng: 34.4718 }
+                ]
+            },
+            "ptc": {
+                "name": "Palestine Technical College",
+                "shortName": "PTC",
+                "status": "grave",
+                "statusLabel": "Gravemente danneggiata",
+                "detail": "Strutture per l'istruzione tecnica distrutte al 90%. Laboratori di ingegneria e informatica inagibili.",
+                "source": "UNESCO, 2025",
+                "sourceUrl": "https://www.unesco.org/en/articles/unesco-presents-assessment-damage-and-reconstruction-needs-higher-education-institutions-gaza",
+                "color": "#2c3e50",
+                "polygon": [
+                    { lat: 31.4188, lng: 34.3502 },
+                    { lat: 31.4188, lng: 34.3520 },
+                    { lat: 31.4176, lng: 34.3528 },
+                    { lat: 31.4166, lng: 34.3520 },
+                    { lat: 31.4166, lng: 34.3502 },
+                    { lat: 31.4178, lng: 34.3498 }
+                ]
+            }
+        };
+
+        const statusColors = {
+            'distrutta': '#b31b1b',
+            'grave': '#d96c2b',
+            'danneggiata': '#f0b34b',
+            'leggera': '#6a9e6a'
+        };
+
+        // ---------- POPUP DRAGGABILI ----------
+        let openPopups = [];
+
+        function createDraggablePopup(map, position, data) {
+            const color = statusColors[data.status] || '#888';
+
+            const popupDiv = document.createElement('div');
+            popupDiv.className = 'custom-popup';
+            popupDiv.innerHTML = `
+                <div class="drag-handle"></div>
+                <button class="popup-close" aria-label="Chiudi">✕</button>
+                <span class="popup-title">${data.name}</span>
+                <span class="popup-status" style="background:${color};">${data.statusLabel}</span>
+                <div class="popup-detail">${data.detail}</div>
+                <div class="popup-source">Fonte: <a href="${data.sourceUrl}" target="_blank">${data.source}</a></div>
+            `;
+
+            const overlay = new google.maps.OverlayView();
+            overlay.onAdd = function() {
+                const pane = this.getPanes().floatPane;
+                pane.appendChild(popupDiv);
+            };
+            overlay.draw = function() {
+                const projection = this.getProjection();
+                const point = projection.fromLatLngToDivPixel(position);
+                if (point) {
+                    popupDiv.style.left = (point.x - 120) + 'px';
+                    popupDiv.style.top = (point.y - 10) + 'px';
+                }
+            };
+            overlay.onRemove = function() {
+                if (popupDiv.parentNode) popupDiv.parentNode.removeChild(popupDiv);
+            };
+            overlay.setMap(map);
+
+            let isDragging = false;
+            let startX, startY;
+
+            function startDrag(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const touch = e.touches ? e.touches[0] : e;
+                isDragging = true;
+                popupDiv.style.cursor = 'grabbing';
+                startX = touch.clientX;
+                startY = touch.clientY;
+                document.addEventListener('mousemove', onDrag);
+                document.addEventListener('mouseup', stopDrag);
+                document.addEventListener('touchmove', onDrag, { passive: false });
+                document.addEventListener('touchend', stopDrag, { passive: false });
+            }
+
+            function onDrag(e) {
+                if (!isDragging) return;
+                e.preventDefault();
+                const touch = e.touches ? e.touches[0] : e;
+                const dx = touch.clientX - startX;
+                const dy = touch.clientY - startY;
+                const rect = popupDiv.getBoundingClientRect();
+                const mapContainer = map.getDiv().getBoundingClientRect();
+                let newLeft = rect.left - mapContainer.left + dx;
+                let newTop = rect.top - mapContainer.top + dy;
+                newLeft = Math.max(0, Math.min(newLeft, mapContainer.width - rect.width));
+                newTop = Math.max(0, Math.min(newTop, mapContainer.height - rect.height));
+                popupDiv.style.left = newLeft + 'px';
+                popupDiv.style.top = newTop + 'px';
+                startX = touch.clientX;
+                startY = touch.clientY;
+            }
+
+            function stopDrag() {
+                if (isDragging) {
+                    isDragging = false;
+                    popupDiv.style.cursor = 'grab';
+                    document.removeEventListener('mousemove', onDrag);
+                    document.removeEventListener('mouseup', stopDrag);
+                    document.removeEventListener('touchmove', onDrag);
+                    document.removeEventListener('touchend', stopDrag);
+                }
+            }
+
+            const handle = popupDiv.querySelector('.drag-handle');
+            handle.addEventListener('mousedown', startDrag);
+            handle.addEventListener('touchstart', startDrag, { passive: false });
+
+            popupDiv.addEventListener('mousedown', function(e) {
+                if (e.target.closest('.popup-close') || e.target.closest('a')) return;
+                startDrag(e);
+            });
+            popupDiv.addEventListener('touchstart', function(e) {
+                if (e.target.closest('.popup-close') || e.target.closest('a')) return;
+                startDrag(e);
+            }, { passive: false });
+
+            const closeBtn = popupDiv.querySelector('.popup-close');
+            closeBtn.addEventListener('click', function() {
+                overlay.setMap(null);
+                const idx = openPopups.indexOf(overlay);
+                if (idx > -1) openPopups.splice(idx, 1);
+            });
+
+            openPopups.push(overlay);
+            return overlay;
+        }
+
+        // ---------- INIZIALIZZA LA MAPPA ----------
+        let map;
+
+        function initMap() {
+            const center = { lat: 31.4500, lng: 34.4000 };
+
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: center,
+                zoom: 10,
+                mapTypeId: 'hybrid',
+                streetViewControl: false,
+                mapTypeControl: false,
+                rotateControl: true,
+                tilt: 45,
+                styles: []
+            });
+
+            // Legenda
+            const legendContainer = document.getElementById('legendContainer');
+            Object.keys(universityData).forEach(key => {
+                const data = universityData[key];
+                const item = document.createElement('span');
+                item.className = 'legend-item';
+                item.innerHTML = `
+                    <span class="legend-color" style="background:${data.color};"></span>
+                    ${data.shortName}
+                `;
+                legendContainer.appendChild(item);
+            });
+
+            // Poligoni + etichette
+            Object.keys(universityData).forEach(key => {
+                const data = universityData[key];
+                const polygonCoords = data.polygon;
+
+                const polygon = new google.maps.Polygon({
+                    paths: polygonCoords,
+                    strokeColor: data.color,
+                    strokeWeight: 3,
+                    strokeOpacity: 1.0,
+                    fillColor: data.color,
+                    fillOpacity: 0.08,
+                    clickable: true,
+                    editable: false,
+                    draggable: false
+                });
+                polygon.setMap(map);
+
+                const bounds = new google.maps.LatLngBounds();
+                polygonCoords.forEach(coord => bounds.extend(coord));
+                const centerLatLng = bounds.getCenter();
+
+                new google.maps.Marker({
+                    position: centerLatLng,
+                    map: map,
+                    icon: {
+                        url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1" height="1">
+                                <rect width="1" height="1" fill="none" />
+                            </svg>
+                        `),
+                        labelOrigin: new google.maps.Point(0, 0)
+                    },
+                    label: {
+                        text: data.shortName,
+                        className: 'univ-label',
+                        color: data.color,
+                        fontSize: '14px',
+                        fontWeight: 'bold'
+                    },
+                    clickable: false,
+                    zIndex: 1000
+                });
+
+                polygon.addListener('click', function(event) {
+                    const pos = event.latLng || centerLatLng;
+                    createDraggablePopup(map, pos, data);
+                });
+            });
+
+            // Zoom su tutte le aree
+            const bounds = new google.maps.LatLngBounds();
+            Object.values(universityData).forEach(data => {
+                data.polygon.forEach(coord => bounds.extend(coord));
+            });
+            map.fitBounds(bounds);
+        }
+
+        window.initMap = initMap;
+
+        // ---------- GESTIONE DRAWER FONTI ----------
+        const sourcesBtn = document.getElementById('sourcesBtn');
+        const sourcesDrawer = document.getElementById('sourcesDrawer');
+        const drawerClose = document.getElementById('drawerClose');
+
+        sourcesBtn.addEventListener('click', () => {
+            sourcesDrawer.classList.toggle('open');
+        });
+
+        drawerClose.addEventListener('click', () => {
+            sourcesDrawer.classList.remove('open');
+        });
+
+        // ESC chiude il drawer
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') sourcesDrawer.classList.remove('open');
+        });
+    </script>
+
+</body>
+</html>
