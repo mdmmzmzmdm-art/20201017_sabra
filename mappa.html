@@ -16,7 +16,6 @@
             background: #eef2f0;
         }
 
-        /* MAPPA A TUTTO SCHERMO */
         #map {
             position: absolute;
             inset: 0;
@@ -25,7 +24,39 @@
             background: #dce5df;
         }
 
-        /* ---------- PANNELLO TITOLO (in alto a sinistra) ---------- */
+        /* ---------- SELETTORE VISTA (in alto a destra) ---------- */
+        .view-switcher {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            z-index: 600;
+            display: flex;
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(8px);
+            border-radius: 50px;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.18);
+            padding: 5px;
+            gap: 4px;
+        }
+
+        .view-btn {
+            border: none;
+            background: transparent;
+            color: #1a1a1a;
+            font-size: 0.82rem;
+            font-weight: 600;
+            padding: 9px 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+            white-space: nowrap;
+            font-family: inherit;
+        }
+
+        .view-btn:hover { background: rgba(0, 0, 0, 0.06); }
+        .view-btn.active { background: #b31b1b; color: white; }
+
+        /* ---------- PANNELLO TITOLO ---------- */
         .title-panel {
             position: absolute;
             top: 16px;
@@ -75,10 +106,9 @@
         }
 
         .title-panel.collapsed .title-body { display: none; }
-
         .title-panel .title-body strong { color: #b31b1b; font-weight: 600; }
 
-        /* ---------- LEGENDA (in basso a sinistra) ---------- */
+        /* ---------- LEGENDA ---------- */
         .legend {
             position: absolute;
             bottom: 16px;
@@ -94,7 +124,6 @@
             flex-wrap: wrap;
             gap: 6px 14px;
             align-items: center;
-            transition: transform 0.25s;
         }
 
         .legend-title {
@@ -122,7 +151,7 @@
             flex-shrink: 0;
         }
 
-        /* ---------- PULSANTE + DRAWER FONTI (in basso a destra) ---------- */
+        /* ---------- PULSANTE + DRAWER FONTI ---------- */
         .sources-btn {
             position: absolute;
             bottom: 16px;
@@ -141,6 +170,7 @@
             align-items: center;
             gap: 8px;
             transition: background 0.2s, transform 0.1s;
+            font-family: inherit;
         }
 
         .sources-btn:hover { background: #0f172a; }
@@ -356,9 +386,12 @@
 
         /* ---------- RESPONSIVE ---------- */
         @media (max-width: 700px) {
-            .title-panel { max-width: calc(100vw - 32px); }
-            .title-panel .title-header h1 { font-size: 0.9rem; }
-            .title-panel .title-body { font-size: 0.75rem; }
+            .title-panel { max-width: calc(100vw - 200px); }
+            .title-panel .title-header h1 { font-size: 0.85rem; }
+            .title-panel .title-body { font-size: 0.72rem; }
+
+            .view-switcher { top: 12px; right: 12px; padding: 4px; }
+            .view-btn { font-size: 0.72rem; padding: 7px 11px; }
 
             .legend {
                 bottom: 12px;
@@ -377,7 +410,6 @@
             }
 
             .sources-drawer { width: 100vw; max-width: 100vw; }
-
             .univ-label { font-size: 11px !important; }
 
             .custom-popup {
@@ -389,13 +421,11 @@
 
         @media (max-width: 480px) {
             .univ-label { font-size: 9px !important; }
-
             .custom-popup {
                 max-width: 160px;
                 min-width: 130px;
                 padding: 8px 10px;
             }
-
             .custom-popup .popup-title { font-size: 0.85rem; }
             .custom-popup .popup-detail { font-size: 0.7rem; }
         }
@@ -403,8 +433,13 @@
 </head>
 <body>
 
-    <!-- MAPPA -->
     <div id="map"></div>
+
+    <!-- SELETTORE VISTA -->
+    <div class="view-switcher">
+        <button class="view-btn" data-view="2023" type="button">10 Agosto 2023</button>
+        <button class="view-btn active" data-view="2025" type="button">23 Ottobre 2025</button>
+    </div>
 
     <!-- TITOLO FLOTTANTE -->
     <div class="title-panel" id="titlePanel">
@@ -416,10 +451,12 @@
             <strong>Tutte le sedi di Al-Azhar e degli altri atenei</strong> – Ogni università ha un colore diverso.
             Clicca su ogni area per aprire un popup con i dettagli sui danni.
             I popup sono <strong>draggabili</strong> e possono restare aperti contemporaneamente.
+            <br><br>
+            Usa il selettore in alto a destra per confrontare <strong>agosto 2023</strong> e <strong>ottobre 2025</strong>.
         </div>
     </div>
 
-    <!-- LEGENDA FLOTTANTE -->
+    <!-- LEGENDA -->
     <div class="legend" id="legendContainer">
         <span class="legend-title">LEGENDA COLORI</span>
     </div>
@@ -480,15 +517,16 @@
             </div>
 
             <div class="sources-note">
-                <strong>Nota:</strong> I contorni degli edifici sono stati ricostruiti sulla base di immagini satellitari e descrizioni dei confini disponibili su Wikipedia e altre fonti aperte antecedenti a settembre 2023. Le informazioni sui livelli di distruzione sono state raccolte da rapporti accademici e istituzionali pubblicati nel 2025. I dati possono variare a seconda della fonte e del periodo di rilevazione.
+                <strong>Nota:</strong> I contorni degli edifici sono stati ricostruiti sulla base di immagini satellitari e descrizioni dei confini disponibili su Wikipedia e altre fonti aperte antecedenti a settembre 2023. Le informazioni sui livelli di distruzione sono state raccolte da rapporti accademici e istituzionali pubblicati nel 2025.
+                <br><br>
+                <strong>Immagini satellitari:</strong> fornite da <a href="https://livingatlas.arcgis.com/wayback/" target="_blank" style="color:#b31b1b;">Esri World Imagery Wayback</a>.
             </div>
         </div>
         <div class="drawer-meta">
-            Clicca sulle aree colorate per i dettagli. I popup sono trascinabili. Sfondo: Google Maps Hybrid.
+            Clicca sulle aree colorate per i dettagli. I popup sono trascinabili.
         </div>
     </aside>
 
-    <!-- Google Maps JavaScript API -->
     <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwlSoeQ9W2LsaVWLKjSoVlEThbmFDnTj8&callback=initMap"
         async
@@ -496,6 +534,40 @@
     ></script>
 
     <script>
+        // ============================================================
+        //  VISTE SATELLITARI (Esri Wayback)
+        // ============================================================
+        //  IMPORTANTE: se le immagini non corrispondono alle date,
+        //  verifica i release number su https://livingatlas.arcgis.com/wayback/
+        //  e sostituiscili qui sotto.
+        // ============================================================
+        const VIEWS = {
+            '2023': {
+                label: '10 Agosto 2023',
+                release: 17632
+            },
+            '2025': {
+                label: '23 Ottobre 2025',
+                release: 20512
+            }
+        };
+
+        // Crea un map type Google Maps basato sulle tile Esri Wayback.
+        function createWaybackMapType(releaseNum, name) {
+            return new google.maps.ImageMapType({
+                getTileUrl: function(coord, zoom) {
+                    return 'https://wayback.maptiles.arcgis.com/arcgis/rest/services/' +
+                           'World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/' +
+                           releaseNum + '/' + zoom + '/' + coord.y + '/' + coord.x;
+                },
+                tileSize: new google.maps.Size(256, 256),
+                maxZoom: 19,
+                minZoom: 0,
+                name: name,
+                alt: 'Esri World Imagery – ' + name
+            });
+        }
+
         // ---------- DATI UNIVERSITÀ ----------
         const universityData = {
             "iug": {
@@ -807,13 +879,21 @@
             map = new google.maps.Map(document.getElementById('map'), {
                 center: center,
                 zoom: 10,
-                mapTypeId: 'hybrid',
-                streetViewControl: false,
                 mapTypeControl: false,
+                streetViewControl: false,
                 rotateControl: true,
-                tilt: 45,
-                styles: []
+                tilt: 0,
+                disableDefaultUI: false
             });
+
+            // Registra le viste
+            Object.keys(VIEWS).forEach(function(key) {
+                const v = VIEWS[key];
+                map.mapTypes.set(key, createWaybackMapType(v.release, v.label));
+            });
+
+            // Vista di default: Ottobre 2025
+            map.setMapTypeId('2025');
 
             // Legenda
             const legendContainer = document.getElementById('legendContainer');
@@ -878,17 +958,26 @@
                 });
             });
 
-            // Zoom su tutte le aree
             const bounds = new google.maps.LatLngBounds();
             Object.values(universityData).forEach(data => {
                 data.polygon.forEach(coord => bounds.extend(coord));
             });
             map.fitBounds(bounds);
+
+            // Selettore viste
+            const viewButtons = document.querySelectorAll('.view-btn');
+            viewButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    viewButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    map.setMapTypeId(btn.dataset.view);
+                });
+            });
         }
 
         window.initMap = initMap;
 
-        // ---------- GESTIONE DRAWER FONTI ----------
+        // ---------- DRAWER FONTI ----------
         const sourcesBtn = document.getElementById('sourcesBtn');
         const sourcesDrawer = document.getElementById('sourcesDrawer');
         const drawerClose = document.getElementById('drawerClose');
@@ -901,7 +990,6 @@
             sourcesDrawer.classList.remove('open');
         });
 
-        // ESC chiude il drawer
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') sourcesDrawer.classList.remove('open');
         });
