@@ -39,7 +39,7 @@
       content: '';
       position: fixed;
       inset: 0;
-      background: rgba(248, 250, 252, 0.45);
+      background: rgba(248, 250, 252, 0.20);
       pointer-events: none;
       z-index: 0;
     }
@@ -238,7 +238,7 @@
       height: 100%;
       border: 0;
       display: block;
-      background: white;
+      background: transparent;
     }
 
     /* Loader */
@@ -248,7 +248,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #f8fafc;
+      background: rgba(248, 250, 252, 0.7);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
       z-index: 10;
       flex-direction: column;
       gap: 1rem;
@@ -275,17 +277,15 @@
 
     .loader-text {
       font-size: 0.95rem;
-      color: #64748b;
+      color: #475569;
     }
   </style>
 </head>
 <body>
 
-  <!-- ================= SIDEBAR ================= -->
   <aside class="sidebar">
     <h2>Menu</h2>
 
-    <!-- BOTTONE PROF. SABRA: ora caricato come iframe -->
     <button class="nav-btn active" data-type="iframe" data-url="evento.html">
       prof. Mahmoud Sabra
     </button>
@@ -322,15 +322,22 @@
       Scolasticidio Università
     </button>
 
+    <button class="nav-btn" data-type="iframe" data-url="scola.pdf">
+      Presentazione Scolasticidio
+    </button>
+
+    <!-- NUOVO BOTTONE PDF -->
+    <button class="nav-btn" data-type="iframe" data-url="futuro.pdf">
+      un futuro
+    </button>
+
     <button id="fullscreenBtn" class="fullscreen-btn" type="button">
       ⛶ Schermo intero
     </button>
   </aside>
 
-  <!-- ================= AREA CENTRALE ================= -->
   <main class="main">
 
-    <!-- SEZIONE 4: VIDEO UNIVERSITÀ -->
     <section id="video" class="content-section video-section">
       <h1>4. Università video</h1>
       <div class="video-wrapper">
@@ -343,7 +350,6 @@
       <p class="video-caption">Sostituisci questa didascalia con la descrizione del video.</p>
     </section>
 
-    <!-- SEZIONE 5: VOCE DEGLI STUDENTI -->
     <section id="voce" class="content-section video-section">
       <h1>5. voce degli studenti</h1>
       <div class="video-wrapper">
@@ -356,7 +362,6 @@
       <p class="video-caption">Sostituisci questa didascalia con la descrizione del video.</p>
     </section>
 
-    <!-- SEZIONE AL-AZHAR -->
     <section id="alazhar" class="content-section video-section">
       <h1>Al-Azhar</h1>
       <div class="video-wrapper">
@@ -374,7 +379,6 @@
       </p>
     </section>
 
-    <!-- CONTENITORE IFRAME (evento.html, economia.html, mappa.html, primadopo.html, supe.html, univ.html) -->
     <div class="frame-wrapper" id="frameWrapper">
       <iframe
         id="frame"
@@ -399,7 +403,6 @@
     const loader        = document.getElementById('loader');
     const fullscreenBtn = document.getElementById('fullscreenBtn');
 
-    // ---- Carica subito evento.html all'avvio ----
     window.addEventListener('DOMContentLoaded', () => {
       frameWrapper.classList.add('active');
       frame.src = 'evento.html';
