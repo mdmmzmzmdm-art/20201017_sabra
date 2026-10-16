@@ -50,7 +50,6 @@
       z-index: 1;
     }
 
-    /* ---------- SIDEBAR TRASPARENTE ---------- */
     .sidebar {
       width: 300px;
       background: transparent;
@@ -75,7 +74,6 @@
         0 0 14px rgba(0,0,0,0.45);
     }
 
-    /* ---------- BOTTONI TRASPARENTI CON SOLO CONTORNO ---------- */
     .nav-btn,
     .fullscreen-btn {
       width: 100%;
@@ -115,7 +113,6 @@
       transform: scale(0.98);
     }
 
-    /* ---------- AREA CENTRALE ---------- */
     .main {
       flex: 1;
       position: relative;
@@ -123,7 +120,6 @@
       min-width: 0;
     }
 
-    /* ---------- SEZIONI ---------- */
     .content-section {
       display: none;
       height: 100%;
@@ -168,7 +164,6 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.06);
     }
 
-    /* ---------- VIDEO ---------- */
     .content-section.video-section.active {
       display: flex;
       flex-direction: column;
@@ -223,7 +218,6 @@
       border-bottom-color: #7a0f0f;
     }
 
-    /* ---------- IFRAME ---------- */
     .frame-wrapper {
       display: none;
       position: relative;
@@ -241,7 +235,6 @@
       background: transparent;
     }
 
-    /* Loader */
     .loader {
       position: absolute;
       inset: 0;
@@ -287,11 +280,11 @@
     <h2>Menu</h2>
 
     <button class="nav-btn active" data-type="iframe" data-url="evento.html">
-      prof. Mahmoud Sabra
+      EVENTO 20261017
     </button>
 
-    <button class="nav-btn" data-type="iframe" data-url="economia.html">
-      Economia a Gaza
+    <button class="nav-btn" data-type="section" data-target="voce">
+      La voce di una studentessa
     </button>
 
     <button class="nav-btn" data-type="iframe" data-url="mappa.html">
@@ -299,11 +292,7 @@
     </button>
 
     <button class="nav-btn" data-type="section" data-target="video">
-      4. Università video
-    </button>
-
-    <button class="nav-btn" data-type="section" data-target="voce">
-      5. voce degli studenti
+      Danni alle Università
     </button>
 
     <button class="nav-btn" data-type="iframe" data-url="primadopo.html">
@@ -314,21 +303,33 @@
       Al-Azhar
     </button>
 
+    <!-- NUOVO BOTTONE YASMIN, DOPO AL-AZHAR -->
+    <button class="nav-btn" data-type="iframe" data-url="yasmin.html">
+      Yasmin Khamis Al-Boubou
+    </button>
+
+    <button class="nav-btn" data-type="iframe" data-url="scola.pdf">
+      Presentazione Scolasticidio
+    </button>
+
+    <button class="nav-btn" data-type="iframe" data-url="reopen.html">
+      Re-Open
+    </button>
+
+    <button class="nav-btn" data-type="iframe" data-url="futuro.pdf">
+      un futuro
+    </button>
+
+    <button class="nav-btn" data-type="iframe" data-url="economia.html">
+      Economia a Gaza
+    </button>
+
     <button class="nav-btn" data-type="iframe" data-url="supe.html">
       Scolasticidio Superiori
     </button>
 
     <button class="nav-btn" data-type="iframe" data-url="univ.html">
       Scolasticidio Università
-    </button>
-
-    <!-- PDF APERTI DIRETTAMENTE NELL'IFRAME -->
-    <button class="nav-btn" data-type="iframe" data-url="scola.pdf">
-      Presentazione Scolasticidio
-    </button>
-
-    <button class="nav-btn" data-type="iframe" data-url="futuro.pdf">
-      un futuro
     </button>
 
     <button id="fullscreenBtn" class="fullscreen-btn" type="button">
@@ -339,7 +340,7 @@
   <main class="main">
 
     <section id="video" class="content-section video-section">
-      <h1>4. Università video</h1>
+      <h1>Danni alle Università</h1>
       <div class="video-wrapper">
         <video controls preload="metadata" playsinline>
           <source src="cc.mp4" type="video/mp4">
@@ -351,7 +352,7 @@
     </section>
 
     <section id="voce" class="content-section video-section">
-      <h1>5. voce degli studenti</h1>
+      <h1>La voce di una studentessa</h1>
       <div class="video-wrapper">
         <video controls preload="metadata" playsinline>
           <source src="voce.mp4" type="video/mp4">

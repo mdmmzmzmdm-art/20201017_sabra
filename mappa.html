@@ -55,97 +55,48 @@
         .view-btn:hover { background: rgba(0, 0, 0, 0.06); }
         .view-btn.active { background: #b31b1b; color: white; }
 
-        .title-panel {
+        /* ---------- TOGGLE LINEA GIALLA: ORA IN ALTO A SINISTRA ---------- */
+        .yellow-toggle {
             position: absolute;
             top: 16px;
             left: 16px;
-            z-index: 500;
-            background: rgba(255, 255, 255, 0.95);
+            z-index: 600;
+            background: rgba(255, 255, 255, 0.96);
             backdrop-filter: blur(8px);
-            border-radius: 16px;
-            box-shadow: 0 6px 24px rgba(0,0,0,0.15);
-            border-left: 6px solid #b31b1b;
-            max-width: 380px;
-            overflow: hidden;
-            transition: max-width 0.3s;
-        }
-
-        .title-panel .title-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 16px;
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .title-panel .title-header h1 {
-            font-size: 1rem;
-            font-weight: 700;
-            color: #1a1a1a;
-            flex: 1;
-        }
-
-        .title-panel .toggle-icon {
-            font-size: 0.85rem;
-            color: #b31b1b;
-            transition: transform 0.25s;
-        }
-
-        .title-panel.collapsed .toggle-icon { transform: rotate(-90deg); }
-
-        .title-panel .title-body {
-            padding: 0 16px 14px 16px;
+            border-radius: 50px;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.18);
+            border: none;
+            padding: 9px 16px;
+            font-family: inherit;
             font-size: 0.82rem;
-            color: #4a4a4a;
-            line-height: 1.45;
-            border-top: 1px solid #eee;
-            padding-top: 10px;
-        }
-
-        .title-panel.collapsed .title-body { display: none; }
-        .title-panel .title-body strong { color: #b31b1b; font-weight: 600; }
-
-        .legend {
-            position: absolute;
-            bottom: 16px;
-            left: 16px;
-            z-index: 500;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(8px);
-            border-radius: 14px;
-            box-shadow: 0 6px 24px rgba(0,0,0,0.15);
-            padding: 10px 14px;
-            max-width: 320px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px 14px;
-            align-items: center;
-        }
-
-        .legend-title {
-            font-size: 0.7rem;
             font-weight: 700;
-            color: #4a4a4a;
-            letter-spacing: 0.03em;
-            width: 100%;
-            margin-bottom: 2px;
-        }
-
-        .legend-item {
+            cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 5px;
-            font-size: 0.68rem;
-            color: #2d2d2d;
+            gap: 8px;
+            color: #1a1a1a;
+            transition: background 0.2s, color 0.2s;
         }
 
-        .legend-color {
-            width: 12px;
-            height: 12px;
+        .yellow-toggle:hover { background: rgba(255, 255, 255, 1); }
+
+        .yellow-toggle.active {
+            background: #f5c518;
+            color: #1a1a1a;
+        }
+
+        .yellow-toggle .dot {
+            width: 14px;
+            height: 14px;
             border-radius: 50%;
-            border: 1px solid rgba(0,0,0,0.2);
+            background: #f5c518;
+            border: 2px solid #8a6d00;
             flex-shrink: 0;
+        }
+
+        .yellow-toggle.active .dot {
+            background: #1a1a1a;
+            border-color: #1a1a1a;
         }
 
         .sources-btn {
@@ -294,20 +245,41 @@
             white-space: nowrap;
         }
 
+        .yellow-label {
+            font-family: 'Segoe UI', sans-serif;
+            font-weight: 800;
+            font-size: 15px;
+            color: #1a1a1a;
+            background: #f5c518;
+            padding: 3px 12px;
+            border-radius: 40px;
+            border: 2px solid #8a6d00;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.35);
+            pointer-events: none;
+            user-select: none;
+            white-space: nowrap;
+            letter-spacing: 0.5px;
+        }
+
         .custom-popup {
             position: absolute;
             background: white;
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.25);
             font-family: 'Segoe UI', sans-serif;
-            max-width: 240px;
-            min-width: 180px;
+            max-width: 260px;
+            min-width: 200px;
             padding: 12px 14px;
             cursor: grab;
             z-index: 1000;
             border: 1px solid #e0dad2;
             user-select: none;
             touch-action: none;
+        }
+
+        .custom-popup.yellow {
+            border: 2px solid #f5c518;
+            box-shadow: 0 4px 20px rgba(245, 197, 24, 0.5);
         }
 
         .custom-popup:active { cursor: grabbing; }
@@ -328,6 +300,12 @@
             font-size: 0.65rem;
             font-weight: 600;
             margin-bottom: 5px;
+        }
+
+        .custom-popup .popup-status.yellow-status {
+            background: #f5c518;
+            color: #1a1a1a;
+            border: 1px solid #8a6d00;
         }
 
         .custom-popup .popup-detail {
@@ -378,21 +356,108 @@
 
         .custom-popup .drag-handle:active { cursor: grabbing; }
 
-        @media (max-width: 700px) {
-            .title-panel { max-width: calc(100vw - 200px); }
-            .title-panel .title-header h1 { font-size: 0.85rem; }
-            .title-panel .title-body { font-size: 0.72rem; }
+        .coord-popup {
+            position: absolute;
+            background: #1e293b;
+            color: white;
+            border-radius: 10px;
+            padding: 12px 14px 10px 14px;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 0.82rem;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.45);
+            z-index: 2000;
+            pointer-events: auto;
+            min-width: 230px;
+            border: 1px solid #334155;
+        }
 
+        .coord-popup .coord-title {
+            font-weight: 700;
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+
+        .coord-popup .coord-values {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.85rem;
+        }
+
+        .coord-popup .coord-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .coord-popup .coord-row .label {
+            color: #94a3b8;
+        }
+
+        .coord-popup .coord-row .value {
+            color: #f1f5f9;
+            font-weight: 600;
+        }
+
+        .coord-popup .coord-actions {
+            margin-top: 10px;
+            display: flex;
+            gap: 6px;
+        }
+
+        .coord-popup .coord-actions button {
+            flex: 1;
+            background: #334155;
+            border: none;
+            color: white;
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 6px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background 0.2s;
+        }
+
+        .coord-popup .coord-actions button:hover {
+            background: #475569;
+        }
+
+        .coord-popup .coord-actions button.copied {
+            background: #16a34a;
+        }
+
+        .coord-popup .coord-close {
+            position: absolute;
+            top: 6px;
+            right: 8px;
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 1rem;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0 4px;
+        }
+
+        .coord-popup .coord-close:hover {
+            color: white;
+        }
+
+        @media (max-width: 700px) {
             .view-switcher { top: 12px; right: 12px; padding: 4px; }
             .view-btn { font-size: 0.72rem; padding: 7px 11px; }
 
-            .legend {
-                bottom: 12px;
+            /* Toggle Linea Gialla resta in alto a sinistra anche su mobile */
+            .yellow-toggle {
+                top: 12px;
                 left: 12px;
-                right: 12px;
-                max-width: none;
-                max-height: 30vh;
-                overflow-y: auto;
+                font-size: 0.72rem;
+                padding: 7px 12px;
             }
 
             .sources-btn {
@@ -404,16 +469,24 @@
 
             .sources-drawer { width: 100vw; max-width: 100vw; }
             .univ-label { font-size: 11px !important; }
+            .yellow-label { font-size: 12px; }
 
             .custom-popup {
                 max-width: 200px;
                 min-width: 150px;
                 padding: 10px 12px;
             }
+
+            .coord-popup {
+                min-width: 180px;
+                font-size: 0.75rem;
+                padding: 10px 12px 8px 12px;
+            }
         }
 
         @media (max-width: 480px) {
             .univ-label { font-size: 9px !important; }
+            .yellow-label { font-size: 10px; }
             .custom-popup {
                 max-width: 160px;
                 min-width: 130px;
@@ -428,38 +501,22 @@
 
     <div id="map"></div>
 
-    <!-- SELETTORE VISTA -->
+    <!-- TOGGLE LINEA GIALLA: ora in alto a sinistra -->
+    <button class="yellow-toggle active" id="yellowToggle" type="button">
+        <span class="dot"></span>
+        Linea Gialla
+    </button>
+
+    <!-- SELETTORE VISTA: in alto a destra -->
     <div class="view-switcher">
         <button class="view-btn" data-view="2023" type="button">10 Agosto 2023</button>
         <button class="view-btn active" data-view="2024" type="button">1 Dicembre 2024</button>
     </div>
 
-    <!-- TITOLO FLOTTANTE -->
-    <div class="title-panel" id="titlePanel">
-        <div class="title-header" onclick="document.getElementById('titlePanel').classList.toggle('collapsed')">
-            <h1>🗺️ Mappa delle Università di Gaza</h1>
-            <span class="toggle-icon">▼</span>
-        </div>
-        <div class="title-body">
-            <strong>Tutte le sedi di Al-Azhar e degli altri atenei</strong> – Ogni università ha un colore diverso.
-            Clicca su ogni area per aprire un popup con i dettagli sui danni.
-            I popup sono <strong>draggabili</strong> e possono restare aperti contemporaneamente.
-            <br><br>
-            Usa il selettore in alto a destra per confrontare <strong>agosto 2023</strong> e <strong>dicembre 2024</strong>.
-        </div>
-    </div>
-
-    <!-- LEGENDA -->
-    <div class="legend" id="legendContainer">
-        <span class="legend-title">LEGENDA COLORI</span>
-    </div>
-
-    <!-- PULSANTE FONTI -->
     <button class="sources-btn" id="sourcesBtn" type="button">
         📚 Fonti dei dati
     </button>
 
-    <!-- DRAWER FONTI -->
     <aside class="sources-drawer" id="sourcesDrawer">
         <div class="drawer-header">
             <h3>📚 Fonti dei dati</h3>
@@ -476,20 +533,12 @@
                     <span class="univ-source"><a href="https://es.wikipedia.org/wiki/Universidad_de_al-Azhar_de_Gaza" target="_blank">Wikipedia</a> / <a href="https://link.springer.com/article/10.1007/s44217-026-01570-2" target="_blank">Springer</a></span>
                 </div>
                 <div class="source-item">
-                    <span class="univ-name">Al-Azhar (Khan Yunis)</span>
-                    <span class="univ-source"><a href="https://es.wikipedia.org/wiki/Universidad_de_al-Azhar_de_Gaza" target="_blank">Wikipedia</a> / <a href="https://link.springer.com/article/10.1007/s44217-026-01570-2" target="_blank">Springer</a></span>
-                </div>
-                <div class="source-item">
                     <span class="univ-name">Al-Azhar (Al-Mughraqa)</span>
                     <span class="univ-source"><a href="https://es.wikipedia.org/wiki/Universidad_de_al-Azhar_de_Gaza" target="_blank">Wikipedia</a> / <a href="https://link.springer.com/article/10.1007/s44217-026-01570-2" target="_blank">Springer</a></span>
                 </div>
                 <div class="source-item">
-                    <span class="univ-name">Al-Azhar (Beit Hanoun)</span>
-                    <span class="univ-source"><a href="https://www.amnestyusa.org" target="_blank">Amnesty International</a> / <a href="https://link.springer.com/article/10.1007/s44217-026-01570-2" target="_blank">Springer</a></span>
-                </div>
-                <div class="source-item">
-                    <span class="univ-name">Al-Aqsa University</span>
-                    <span class="univ-source"><a href="https://es.wikipedia.org/wiki/Universidad_Al-Aqsa" target="_blank">Wikipedia</a> / <a href="https://link.springer.com/article/10.1007/s44217-026-01570-2" target="_blank">Springer</a></span>
+                    <span class="univ-name">Al-Quds Open University – Central (Wosta) Branch</span>
+                    <span class="univ-source"><a href="https://en.wikipedia.org/wiki/Al-Quds_Open_University" target="_blank">Wikipedia</a> / <a href="https://www.ochaopt.org/" target="_blank">UN OCHA</a></span>
                 </div>
                 <div class="source-item">
                     <span class="univ-name">Al-Isra University</span>
@@ -507,10 +556,24 @@
                     <span class="univ-name">Palestine Technical College</span>
                     <span class="univ-source"><a href="https://www.unesco.org/en/articles/unesco-presents-assessment-damage-and-reconstruction-needs-higher-education-institutions-gaza" target="_blank">UNESCO</a></span>
                 </div>
+                <div class="source-item">
+                    <span class="univ-name">University College of Applied Sciences – Gaza</span>
+                    <span class="univ-source"><a href="https://en.wikipedia.org/wiki/University_College_of_Applied_Sciences" target="_blank">Wikipedia</a> / <a href="https://www.aljazeera.com/economy/2026/6/10/rising-from-the-rubble-a-gaza-tech-incubator-defies-israels-war" target="_blank">Al Jazeera</a> / <a href="https://jurnal.bsmi.or.id/index.php/irchum/article/view/87" target="_blank">Garuda</a></span>
+                </div>
+                <div class="source-item">
+                    <span class="univ-name">University College of Applied Sciences of Khan Younis</span>
+                    <span class="univ-source"><a href="https://en.wikipedia.org/wiki/University_College_of_Applied_Sciences" target="_blank">Wikipedia</a> / <a href="https://www.ochaopt.org/" target="_blank">UN OCHA</a></span>
+                </div>
+                <div class="source-item">
+                    <span class="univ-name">Linea Gialla</span>
+                    <span class="univ-source"><a href="https://www.ochaopt.org/" target="_blank">UN OCHA – mappe di riferimento</a> / <a href="https://www.reuters.com/" target="_blank">Reuters / AFP (mappe ottobre 2025)</a></span>
+                </div>
             </div>
 
             <div class="sources-note">
-                <strong>Nota:</strong> I contorni degli edifici sono stati ricostruiti sulla base di immagini satellitari e descrizioni dei confini disponibili su Wikipedia e altre fonti aperte antecedenti a settembre 2023. Le informazioni sui livelli di distruzione sono state raccolte da rapporti accademici e istituzionali pubblicati nel 2025.
+                <strong>Nota:</strong> I contorni degli edifici sono stati ricostruiti sulla base di immagini satellitari e descrizioni dei confini disponibili su Wikipedia e altre fonti aperte antecedenti a settembre 2023. Le informazioni sui livelli di distruzione sono state raccolte da rapporti accademici e istituzionali pubblicati nel 2025 e 2026.
+                <br><br>
+                <strong>Linea Gialla:</strong> rappresentazione approssimativa basata su mappe pubblicate da UN OCHA, Reuters e AFP nell'ottobre 2025. Non è un confine ufficiale e il suo tracciato può variare nel tempo.
                 <br><br>
                 <strong>Immagini satellitari:</strong> fornite da <a href="https://livingatlas.arcgis.com/wayback/" target="_blank" style="color:#b31b1b;">Esri World Imagery Wayback</a>.
             </div>
@@ -527,21 +590,9 @@
     ></script>
 
     <script>
-        // ============================================================
-        //  VISTE SATELLITARI (Esri Wayback)
-        // ============================================================
-        //  NOTA: il release 20512 era quello che mostrava l'immagine
-        //  corretta per dicembre 2024. Non cambiarlo.
-        // ============================================================
         const VIEWS = {
-            '2023': {
-                label: '10 Agosto 2023',
-                release: 17632
-            },
-            '2024': {
-                label: '1 Dicembre 2024',
-                release: 20512
-            }
+            '2023': { label: '10 Agosto 2023', release: 17632 },
+            '2024': { label: '1 Dicembre 2024', release: 20512 }
         };
 
         function createWaybackMapType(releaseNum, name) {
@@ -559,6 +610,33 @@
             });
         }
 
+        const YELLOW_LINE_COORDS = [
+            { lat: 31.5860, lng: 34.5170 },
+            { lat: 31.5600, lng: 34.5120 },
+            { lat: 31.5430, lng: 34.4950 },
+            { lat: 31.5250, lng: 34.4830 },
+            { lat: 31.5100, lng: 34.4720 },
+            { lat: 31.4900, lng: 34.4550 },
+            { lat: 31.4650, lng: 34.4320 },
+            { lat: 31.4400, lng: 34.4100 },
+            { lat: 31.4150, lng: 34.3900 },
+            { lat: 31.3900, lng: 34.3680 },
+            { lat: 31.3650, lng: 34.3420 },
+            { lat: 31.3350, lng: 34.3150 },
+            { lat: 31.3050, lng: 34.2900 },
+            { lat: 31.2750, lng: 34.2680 },
+            { lat: 31.2450, lng: 34.2480 },
+            { lat: 31.2200, lng: 34.2380 }
+        ];
+
+        const YELLOW_LINE_LABEL_POS = { lat: 31.4300, lng: 34.4150 };
+
+        const YELLOW_LINE_INFO = {
+            name: 'Linea Gialla',
+            statusLabel: 'Linea di demarcazione',
+            detail: 'Linea stabilita nell\'ottobre 2025 come separazione tra le aree a est (sotto controllo israeliano) e le aree a ovest della Striscia di Gaza. Il tracciato qui mostrato è un\'approssimazione basata su mappe pubbliche di UN OCHA, Reuters e AFP. Non è un confine ufficiale e può variare nel tempo.'
+        };
+
         const universityData = {
             "iug": {
                 "name": "Islamic University of Gaza",
@@ -569,20 +647,10 @@
                 "source": "Springer, 2025",
                 "sourceUrl": "https://link.springer.com/article/10.1007/s44217-026-01570-2",
                 "color": "#e74c3c",
-                "polygon": [
-                    { lat: 31.5148, lng: 34.4372 },
-                    { lat: 31.5148, lng: 34.4398 },
-                    { lat: 31.5140, lng: 34.4402 },
-                    { lat: 31.5135, lng: 34.4398 },
-                    { lat: 31.5135, lng: 34.4385 },
-                    { lat: 31.5128, lng: 34.4382 },
-                    { lat: 31.5125, lng: 34.4378 },
-                    { lat: 31.5128, lng: 34.4370 },
-                    { lat: 31.5138, lng: 34.4368 }
-                ]
+                "marker": { lat: 31.513612834432138, lng: 34.44061904902479 }
             },
             "alazhar": {
-                "name": "Al-Azhar University (Gaza City)",
+                "name": "Al-Azhar University – Gaza",
                 "shortName": "Al-Azhar Gaza",
                 "status": "danneggiata",
                 "statusLabel": "Danneggiata",
@@ -590,34 +658,7 @@
                 "source": "Springer, 2025",
                 "sourceUrl": "https://link.springer.com/article/10.1007/s44217-026-01570-2",
                 "color": "#3498db",
-                "polygon": [
-                    { lat: 31.5158, lng: 34.4358 },
-                    { lat: 31.5158, lng: 34.4376 },
-                    { lat: 31.5150, lng: 34.4380 },
-                    { lat: 31.5148, lng: 34.4376 },
-                    { lat: 31.5148, lng: 34.4366 },
-                    { lat: 31.5142, lng: 34.4362 },
-                    { lat: 31.5142, lng: 34.4354 },
-                    { lat: 31.5150, lng: 34.4350 }
-                ]
-            },
-            "alazhar_khan": {
-                "name": "Al-Azhar University (Khan Yunis)",
-                "shortName": "Al-Azhar Sud",
-                "status": "danneggiata",
-                "statusLabel": "Danneggiata",
-                "detail": "Sede distaccata di Al-Azhar a Khan Yunis. Danni significativi alle strutture didattiche.",
-                "source": "Springer, 2025",
-                "sourceUrl": "https://link.springer.com/article/10.1007/s44217-026-01570-2",
-                "color": "#2ecc71",
-                "polygon": [
-                    { lat: 31.3450, lng: 34.3050 },
-                    { lat: 31.3450, lng: 34.3070 },
-                    { lat: 31.3435, lng: 34.3075 },
-                    { lat: 31.3425, lng: 34.3065 },
-                    { lat: 31.3425, lng: 34.3050 },
-                    { lat: 31.3435, lng: 34.3045 }
-                ]
+                "marker": { lat: 31.514532141502933, lng: 34.44049684398412 }
             },
             "alazhar_mughraqa": {
                 "name": "Al-Azhar University (Al-Mughraqa)",
@@ -628,105 +669,40 @@
                 "source": "Springer, 2025",
                 "sourceUrl": "https://link.springer.com/article/10.1007/s44217-026-01570-2",
                 "color": "#f1c40f",
-                "polygon": [
-                    { lat: 31.4660, lng: 34.4090 },
-                    { lat: 31.4660, lng: 34.4105 },
-                    { lat: 31.4650, lng: 34.4110 },
-                    { lat: 31.4645, lng: 34.4100 },
-                    { lat: 31.4650, lng: 34.4088 }
-                ]
+                "marker": { lat: 31.478206041557236, lng: 34.42675483125556 }
             },
-            "alazhar_hanoon": {
-                "name": "Al-Azhar University (Beit Hanoun)",
-                "shortName": "Al-Azhar Nord",
-                "status": "danneggiata",
-                "statusLabel": "Danneggiata",
-                "detail": "Campus di Beit Hanoun, una delle tre sedi di Al-Azhar a Gaza. Danni significativi alle strutture.",
-                "source": "Amnesty International / Springer, 2025",
-                "sourceUrl": "https://link.springer.com/article/10.1007/s44217-026-01570-2",
-                "color": "#e67e22",
-                "polygon": [
-                    { lat: 31.5350, lng: 34.5380 },
-                    { lat: 31.5350, lng: 34.5400 },
-                    { lat: 31.5335, lng: 34.5405 },
-                    { lat: 31.5325, lng: 34.5395 },
-                    { lat: 31.5325, lng: 34.5380 },
-                    { lat: 31.5335, lng: 34.5375 }
-                ]
-            },
-            "alaqsa": {
-                "name": "Al-Aqsa University",
-                "shortName": "Al-Aqsa",
+            "ucas": {
+                "name": "University College of Applied Sciences – Gaza",
+                "shortName": "UCAS",
                 "status": "distrutta",
                 "statusLabel": "Completamente distrutta",
-                "detail": "Tutti gli edifici del campus principale sono stati rasi al suolo. Impossibile riutilizzare.",
-                "source": "Springer, 2025",
-                "sourceUrl": "https://link.springer.com/article/10.1007/s44217-026-01570-2",
-                "color": "#9b59b6",
-                "polygon": [
-                    { lat: 31.5128, lng: 34.4392 },
-                    { lat: 31.5128, lng: 34.4410 },
-                    { lat: 31.5120, lng: 34.4415 },
-                    { lat: 31.5110, lng: 34.4410 },
-                    { lat: 31.5105, lng: 34.4400 },
-                    { lat: 31.5110, lng: 34.4390 },
-                    { lat: 31.5118, lng: 34.4388 }
-                ]
+                "detail": "Il campus nel quartiere Tal al-Hawa è stato completamente distrutto il 19 ottobre 2023. L'incubatore tecnologico UCAS, con oltre 20 laboratori specializzati, è stato raso al suolo nell'agosto 2024. Il presidente Said Alzebda è stato ucciso il 31 dicembre 2023. Tra il personale: 93% sfollato, 53% ha perso tutte le proprietà, 43% ha perso un familiare. 4.127 laureati non hanno potuto ritirare i certificati.",
+                "source": "Wikipedia; Al Jazeera; Garuda (2025-2026)",
+                "sourceUrl": "https://en.wikipedia.org/wiki/University_College_of_Applied_Sciences",
+                "color": "#8e44ad",
+                "marker": { lat: 31.497831699037143, lng: 34.43666674599386 }
             },
-            "alisra": {
-                "name": "Al-Isra University",
-                "shortName": "Al-Isra",
+            "ucas_khan": {
+                "name": "University College of Applied Sciences of Khan Younis",
+                "shortName": "UCAS Khan",
                 "status": "distrutta",
                 "statusLabel": "Completamente distrutta",
-                "detail": "Campus completamente distrutto. Strutture inagibili e in stato di abbandono.",
-                "source": "Springer, 2025",
-                "sourceUrl": "https://link.springer.com/article/10.1007/s44217-026-01570-2",
-                "color": "#f39c12",
-                "polygon": [
-                    { lat: 31.5242, lng: 34.4512 },
-                    { lat: 31.5242, lng: 34.4530 },
-                    { lat: 31.5230, lng: 34.4538 },
-                    { lat: 31.5220, lng: 34.4530 },
-                    { lat: 31.5220, lng: 34.4512 },
-                    { lat: 31.5230, lng: 34.4508 }
-                ]
+                "detail": "La sede distaccata di Khan Younis è stata colpita e gravemente danneggiata durante l'offensiva su Khan Younis tra la fine del 2023 e l'inizio del 2024. Le strutture didattiche e i laboratori sono inagibili. L'area circostante ha subito una devastazione estesa che ha reso difficile la ripresa delle attività accademiche nella zona meridionale della Striscia.",
+                "source": "UN OCHA; Wikipedia (2025-2026)",
+                "sourceUrl": "https://en.wikipedia.org/wiki/University_College_of_Applied_Sciences",
+                "color": "#c0392b",
+                "marker": { lat: 31.354425353141767, lng: 34.270973543961205 }
             },
             "upalestine": {
                 "name": "University of Palestine",
-                "shortName": "UoP",
+                "shortName": "UP",
                 "status": "danneggiata",
                 "statusLabel": "Danneggiata",
                 "detail": "Danni significativi a diverse facoltà. Alcuni edifici sono crollati, altri parzialmente utilizzabili.",
                 "source": "UNESCO, 2025",
                 "sourceUrl": "https://www.unesco.org/en/articles/unesco-presents-assessment-damage-and-reconstruction-needs-higher-education-institutions-gaza",
                 "color": "#1abc9c",
-                "polygon": [
-                    { lat: 31.4768, lng: 34.4022 },
-                    { lat: 31.4768, lng: 34.4040 },
-                    { lat: 31.4756, lng: 34.4048 },
-                    { lat: 31.4748, lng: 34.4040 },
-                    { lat: 31.4748, lng: 34.4022 },
-                    { lat: 31.4758, lng: 34.4018 }
-                ]
-            },
-            "gazauniv": {
-                "name": "Gaza University",
-                "shortName": "Gaza Univ.",
-                "status": "danneggiata",
-                "statusLabel": "Danneggiata",
-                "detail": "Danni strutturali a 3 edifici principali. Aule e laboratori parzialmente distrutti.",
-                "source": "UN OCHA, 2025",
-                "sourceUrl": "https://reliefweb.int/report/occupied-palestinian-territory/scholasticide-continues-israels-ongoing-destruction-gazas-education-system-jeopardizes-entire-generations-future-enar",
-                "color": "#e67e22",
-                "polygon": [
-                    { lat: 31.5082, lng: 34.4720 },
-                    { lat: 31.5082, lng: 34.4735 },
-                    { lat: 31.5072, lng: 34.4742 },
-                    { lat: 31.5062, lng: 34.4735 },
-                    { lat: 31.5060, lng: 34.4722 },
-                    { lat: 31.5068, lng: 34.4715 },
-                    { lat: 31.5078, lng: 34.4718 }
-                ]
+                "marker": { lat: 31.47710782381589, lng: 34.40520226305919 }
             },
             "ptc": {
                 "name": "Palestine Technical College",
@@ -737,14 +713,40 @@
                 "source": "UNESCO, 2025",
                 "sourceUrl": "https://www.unesco.org/en/articles/unesco-presents-assessment-damage-and-reconstruction-needs-higher-education-institutions-gaza",
                 "color": "#2c3e50",
-                "polygon": [
-                    { lat: 31.4188, lng: 34.3502 },
-                    { lat: 31.4188, lng: 34.3520 },
-                    { lat: 31.4176, lng: 34.3528 },
-                    { lat: 31.4166, lng: 34.3520 },
-                    { lat: 31.4166, lng: 34.3502 },
-                    { lat: 31.4178, lng: 34.3498 }
-                ]
+                "marker": { lat: 31.424443226877557, lng: 34.35572644291415 }
+            },
+            "alquds_wosta": {
+                "name": "Al-Quds Open University – Central (Wosta) Branch",
+                "shortName": "Al-Quds Wosta",
+                "status": "danneggiata",
+                "statusLabel": "Gravemente danneggiata",
+                "detail": "Sede centrale (Wosta) di Al-Quds Open University nella Striscia di Gaza. L'ateneo, specializzato in educazione a distanza e con oltre 40.000 studenti iscritti in tutta la Palestina, ha subito danni alle strutture didattiche e amministrative. Le attività in presenza sono state sospese o fortemente ridotte; parte dei corsi prosegue online, ma con gravi limitazioni dovute a interruzioni di elettricità e connettività. Studenti e personale risultano in gran parte sfollati.",
+                "source": "Wikipedia; UN OCHA (2025-2026)",
+                "sourceUrl": "https://en.wikipedia.org/wiki/Al-Quds_Open_University",
+                "color": "#27ae60",
+                "marker": { lat: 31.427153861209295, lng: 34.3760829766651 }
+            },
+            "alisra": {
+                "name": "Al-Isra University",
+                "shortName": "Israa Univ.",
+                "status": "distrutta",
+                "statusLabel": "Completamente distrutta",
+                "detail": "Campus completamente distrutto. Strutture inagibili e in stato di abbandono.",
+                "source": "Springer, 2025",
+                "sourceUrl": "https://link.springer.com/article/10.1007/s44217-026-01570-2",
+                "color": "#f39c12",
+                "marker": { lat: 31.522883452038442, lng: 34.45226190956937 }
+            },
+            "gazauniv": {
+                "name": "Gaza University",
+                "shortName": "Gaza Univ.",
+                "status": "danneggiata",
+                "statusLabel": "Danneggiata",
+                "detail": "Danni strutturali a 3 edifici principali. Aule e laboratori parzialmente distrutti.",
+                "source": "UN OCHA, 2025",
+                "sourceUrl": "https://reliefweb.int/report/occupied-palestinian-territory/scholasticide-continues-israels-ongoing-destruction-gazas-education-system-jeopardizes-entire-generations-future-enar",
+                "color": "#e67e22",
+                "marker": { lat: 31.51179506958397, lng: 34.451635118356556 }
             }
         };
 
@@ -757,18 +759,18 @@
 
         let openPopups = [];
 
-        function createDraggablePopup(map, position, data) {
-            const color = statusColors[data.status] || '#888';
+        function createDraggablePopup(map, position, data, isYellow) {
+            const color = isYellow ? '#f5c518' : (statusColors[data.status] || '#888');
 
             const popupDiv = document.createElement('div');
-            popupDiv.className = 'custom-popup';
+            popupDiv.className = 'custom-popup' + (isYellow ? ' yellow' : '');
             popupDiv.innerHTML = `
                 <div class="drag-handle"></div>
                 <button class="popup-close" aria-label="Chiudi">✕</button>
                 <span class="popup-title">${data.name}</span>
-                <span class="popup-status" style="background:${color};">${data.statusLabel}</span>
+                <span class="popup-status ${isYellow ? 'yellow-status' : ''}" style="${isYellow ? '' : 'background:' + color + ';'}">${data.statusLabel}</span>
                 <div class="popup-detail">${data.detail}</div>
-                <div class="popup-source">Fonte: <a href="${data.sourceUrl}" target="_blank">${data.source}</a></div>
+                ${data.source ? `<div class="popup-source">Fonte: <a href="${data.sourceUrl}" target="_blank">${data.source}</a></div>` : ''}
             `;
 
             const overlay = new google.maps.OverlayView();
@@ -859,7 +861,60 @@
             return overlay;
         }
 
+        function createNamedMarker(map, data) {
+            const svgIcon = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="34" height="46" viewBox="0 0 34 46">
+                    <path d="M17 0 C7.6 0 0 7.6 0 17 C0 28 17 46 17 46 C17 46 34 28 34 17 C34 7.6 26.4 0 17 0 Z"
+                          fill="${data.color}" stroke="#ffffff" stroke-width="2.5"/>
+                    <circle cx="17" cy="17" r="6" fill="#ffffff"/>
+                </svg>
+            `;
+
+            const marker = new google.maps.Marker({
+                position: data.marker,
+                map: map,
+                title: data.name,
+                icon: {
+                    url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svgIcon),
+                    scaledSize: new google.maps.Size(34, 46),
+                    anchor: new google.maps.Point(17, 46)
+                },
+                zIndex: 1500
+            });
+
+            const labelMarker = new google.maps.Marker({
+                position: data.marker,
+                map: map,
+                icon: {
+                    url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1" height="1">
+                            <rect width="1" height="1" fill="none" />
+                        </svg>
+                    `),
+                    labelOrigin: new google.maps.Point(0, 0)
+                },
+                label: {
+                    text: data.shortName,
+                    className: 'univ-label',
+                    color: data.color,
+                    fontSize: '14px',
+                    fontWeight: 'bold'
+                },
+                clickable: false,
+                zIndex: 1001
+            });
+
+            marker.addListener('click', function() {
+                createDraggablePopup(map, data.marker, data, false);
+            });
+
+            return { marker: marker, labelMarker: labelMarker };
+        }
+
         let map;
+        let yellowPolyline = null;
+        let yellowLabelMarker = null;
+        let yellowVisible = true;
 
         function initMap() {
             const center = { lat: 31.4500, lng: 34.4000 };
@@ -879,23 +934,63 @@
                 map.mapTypes.set(key, createWaybackMapType(v.release, v.label));
             });
 
-            // Vista di default: 1 Dicembre 2024
             map.setMapTypeId('2024');
 
-            const legendContainer = document.getElementById('legendContainer');
-            Object.keys(universityData).forEach(key => {
-                const data = universityData[key];
-                const item = document.createElement('span');
-                item.className = 'legend-item';
-                item.innerHTML = `
-                    <span class="legend-color" style="background:${data.color};"></span>
-                    ${data.shortName}
-                `;
-                legendContainer.appendChild(item);
+            yellowPolyline = new google.maps.Polyline({
+                path: YELLOW_LINE_COORDS,
+                strokeColor: '#f5c518',
+                strokeOpacity: 1.0,
+                strokeWeight: 6,
+                zIndex: 5,
+                clickable: true,
+                map: map
             });
+
+            new google.maps.Polyline({
+                path: YELLOW_LINE_COORDS,
+                strokeColor: '#8a6d00',
+                strokeOpacity: 1.0,
+                strokeWeight: 8,
+                zIndex: 4,
+                clickable: false,
+                map: map
+            });
+
+            yellowLabelMarker = new google.maps.Marker({
+                position: YELLOW_LINE_LABEL_POS,
+                map: map,
+                icon: {
+                    url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1" height="1">
+                            <rect width="1" height="1" fill="none" />
+                        </svg>
+                    `),
+                    labelOrigin: new google.maps.Point(0, 0)
+                },
+                label: {
+                    text: 'LINEA GIALLA',
+                    className: 'yellow-label'
+                },
+                clickable: false,
+                zIndex: 2000
+            });
+
+            yellowPolyline.addListener('click', function(event) {
+                const pos = event.latLng || YELLOW_LINE_LABEL_POS;
+                createDraggablePopup(map, pos, YELLOW_LINE_INFO, true);
+            });
+
+            const allBounds = new google.maps.LatLngBounds();
 
             Object.keys(universityData).forEach(key => {
                 const data = universityData[key];
+
+                if (data.marker) {
+                    createNamedMarker(map, data);
+                    allBounds.extend(data.marker);
+                    return;
+                }
+
                 const polygonCoords = data.polygon;
 
                 const polygon = new google.maps.Polygon({
@@ -939,15 +1034,13 @@
 
                 polygon.addListener('click', function(event) {
                     const pos = event.latLng || centerLatLng;
-                    createDraggablePopup(map, pos, data);
+                    createDraggablePopup(map, pos, data, false);
                 });
+
+                polygonCoords.forEach(coord => allBounds.extend(coord));
             });
 
-            const bounds = new google.maps.LatLngBounds();
-            Object.values(universityData).forEach(data => {
-                data.polygon.forEach(coord => bounds.extend(coord));
-            });
-            map.fitBounds(bounds);
+            map.fitBounds(allBounds);
 
             const viewButtons = document.querySelectorAll('.view-btn');
             viewButtons.forEach(btn => {
@@ -957,6 +1050,142 @@
                     map.setMapTypeId(btn.dataset.view);
                 });
             });
+
+            const yellowToggle = document.getElementById('yellowToggle');
+            yellowToggle.addEventListener('click', () => {
+                yellowVisible = !yellowVisible;
+                yellowToggle.classList.toggle('active', yellowVisible);
+
+                if (yellowPolyline) {
+                    yellowPolyline.setMap(yellowVisible ? map : null);
+                }
+                if (yellowLabelMarker) {
+                    yellowLabelMarker.setMap(yellowVisible ? map : null);
+                }
+            });
+
+            const coordOverlay = new google.maps.OverlayView();
+            let coordPopupDiv = null;
+
+            coordOverlay.onAdd = function() {};
+            coordOverlay.draw = function() {};
+            coordOverlay.onRemove = function() {
+                if (coordPopupDiv && coordPopupDiv.parentNode) {
+                    coordPopupDiv.parentNode.removeChild(coordPopupDiv);
+                    coordPopupDiv = null;
+                }
+            };
+            coordOverlay.setMap(map);
+
+            map.addListener('rightclick', function(event) {
+                const lat = event.latLng.lat();
+                const lng = event.latLng.lng();
+
+                if (coordPopupDiv && coordPopupDiv.parentNode) {
+                    coordPopupDiv.parentNode.removeChild(coordPopupDiv);
+                }
+
+                const latStr = lat.toFixed(6);
+                const lngStr = lng.toFixed(6);
+
+                coordPopupDiv = document.createElement('div');
+                coordPopupDiv.className = 'coord-popup';
+                coordPopupDiv.innerHTML = `
+                    <button class="coord-close" aria-label="Chiudi">✕</button>
+                    <div class="coord-title">Coordinate GPS</div>
+                    <div class="coord-values">
+                        <div class="coord-row">
+                            <span class="label">Lat:</span>
+                            <span class="value">${latStr}</span>
+                        </div>
+                        <div class="coord-row">
+                            <span class="label">Lng:</span>
+                            <span class="value">${lngStr}</span>
+                        </div>
+                    </div>
+                    <div class="coord-actions">
+                        <button class="copy-btn" data-copy="${latStr}, ${lngStr}">
+                            📋 Copia
+                        </button>
+                        <button class="gmaps-btn" data-gmaps="https://www.google.com/maps?q=${latStr},${lngStr}">
+                            🌍 Apri
+                        </button>
+                    </div>
+                `;
+
+                const projection = coordOverlay.getProjection();
+                if (projection) {
+                    const point = projection.fromLatLngToDivPixel(event.latLng);
+                    coordPopupDiv.style.left = (point.x + 12) + 'px';
+                    coordPopupDiv.style.top = (point.y - 12) + 'px';
+                }
+
+                const pane = coordOverlay.getPanes().floatPane;
+                pane.appendChild(coordPopupDiv);
+
+                coordPopupDiv.querySelector('.coord-close').addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    if (coordPopupDiv.parentNode) {
+                        coordPopupDiv.parentNode.removeChild(coordPopupDiv);
+                        coordPopupDiv = null;
+                    }
+                });
+
+                coordPopupDiv.querySelector('.copy-btn').addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const text = this.dataset.copy;
+                    const btn = this;
+
+                    function done() {
+                        btn.classList.add('copied');
+                        btn.textContent = '✓ Copiato';
+                        setTimeout(() => {
+                            btn.classList.remove('copied');
+                            btn.textContent = '📋 Copia';
+                        }, 1500);
+                    }
+
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                        navigator.clipboard.writeText(text).then(done).catch(() => {
+                            fallbackCopy(text);
+                            done();
+                        });
+                    } else {
+                        fallbackCopy(text);
+                        done();
+                    }
+                });
+
+                coordPopupDiv.querySelector('.gmaps-btn').addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    window.open(this.dataset.gmaps, '_blank');
+                });
+            });
+
+            map.addListener('click', function() {
+                if (coordPopupDiv && coordPopupDiv.parentNode) {
+                    coordPopupDiv.parentNode.removeChild(coordPopupDiv);
+                    coordPopupDiv = null;
+                }
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && coordPopupDiv && coordPopupDiv.parentNode) {
+                    coordPopupDiv.parentNode.removeChild(coordPopupDiv);
+                    coordPopupDiv = null;
+                }
+            });
+        }
+
+        function fallbackCopy(text) {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.left = '-9999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy'); } catch (e) {}
+            document.body.removeChild(ta);
         }
 
         window.initMap = initMap;
