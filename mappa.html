@@ -55,7 +55,7 @@
         .view-btn:hover { background: rgba(0, 0, 0, 0.06); }
         .view-btn.active { background: #b31b1b; color: white; }
 
-        /* ---------- TOGGLE LINEA GIALLA: ORA IN ALTO A SINISTRA ---------- */
+        /* ---------- TOGGLE LINEA GIALLA ---------- */
         .yellow-toggle {
             position: absolute;
             top: 16px;
@@ -99,9 +99,93 @@
             border-color: #1a1a1a;
         }
 
+        /* ---------- DIDASCALIA ISTRUZIONI ---------- */
+        .info-panel {
+            position: absolute;
+            bottom: 70px; /* Sollevato per fare spazio alla banda Forensic Architecture */
+            left: 16px;
+            z-index: 500;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border-radius: 12px;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.15);
+            padding: 14px 18px;
+            max-width: 340px;
+            font-size: 0.78rem;
+            color: #334155;
+            line-height: 1.5;
+        }
+
+        .info-panel h4 {
+            margin: 0 0 8px 0;
+            font-size: 0.9rem;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .info-panel ul {
+            padding-left: 16px;
+            margin: 0;
+        }
+
+        .info-panel li {
+            margin-bottom: 6px;
+        }
+
+        .info-panel strong {
+            color: #0ea5e9;
+        }
+
+        /* ---------- BANDA FORENSIC ARCHITECTURE ---------- */
+        .fa-banner {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 550;
+            background: rgba(15, 23, 42, 0.92);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-size: 0.82rem;
+            line-height: 1.4;
+            border-top: 2px solid #b31b1b;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        .fa-banner a {
+            color: #38bdf8;
+            text-decoration: none;
+            font-weight: 700;
+            border-bottom: 1px dotted #38bdf8;
+            transition: color 0.2s, border-color 0.2s;
+        }
+
+        .fa-banner a:hover {
+            color: #7dd3fc;
+            border-bottom-color: #7dd3fc;
+        }
+
+        .fa-banner strong {
+            color: #f1f5f9;
+        }
+
+        .fa-banner .fa-icon {
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        /* ---------- PULSANTE FONTI ---------- */
         .sources-btn {
             position: absolute;
-            bottom: 16px;
+            bottom: 70px; /* Sollevato per fare spazio alla banda */
             right: 16px;
             z-index: 600;
             background: #1e293b;
@@ -127,7 +211,7 @@
             position: absolute;
             top: 0;
             right: 0;
-            bottom: 0;
+            bottom: 70px; /* Non copre la banda in basso */
             width: 400px;
             max-width: 92vw;
             background: rgba(255, 255, 255, 0.98);
@@ -448,11 +532,14 @@
             color: white;
         }
 
+        @media (max-width: 900px) {
+            .view-switcher { flex-wrap: wrap; justify-content: flex-end; }
+        }
+
         @media (max-width: 700px) {
             .view-switcher { top: 12px; right: 12px; padding: 4px; }
             .view-btn { font-size: 0.72rem; padding: 7px 11px; }
 
-            /* Toggle Linea Gialla resta in alto a sinistra anche su mobile */
             .yellow-toggle {
                 top: 12px;
                 left: 12px;
@@ -460,14 +547,34 @@
                 padding: 7px 12px;
             }
 
+            .info-panel {
+                bottom: 110px; /* Ancora più in alto su mobile */
+                left: 12px;
+                right: 12px;
+                max-width: none;
+                font-size: 0.72rem;
+                padding: 10px 14px;
+            }
+
+            .fa-banner {
+                padding: 10px 14px;
+                font-size: 0.72rem;
+                flex-direction: column;
+                gap: 6px;
+            }
+
             .sources-btn {
-                bottom: 12px;
+                bottom: 90px;
                 right: 12px;
                 padding: 10px 14px;
                 font-size: 0.75rem;
             }
 
-            .sources-drawer { width: 100vw; max-width: 100vw; }
+            .sources-drawer { 
+                width: 100vw; 
+                max-width: 100vw;
+                bottom: 100px;
+            }
             .univ-label { font-size: 11px !important; }
             .yellow-label { font-size: 12px; }
 
@@ -501,22 +608,47 @@
 
     <div id="map"></div>
 
-    <!-- TOGGLE LINEA GIALLA: ora in alto a sinistra -->
+    <!-- TOGGLE LINEA GIALLA -->
     <button class="yellow-toggle active" id="yellowToggle" type="button">
         <span class="dot"></span>
         Linea Gialla
     </button>
 
-    <!-- SELETTORE VISTA: in alto a destra -->
+    <!-- SELETTORE VISTA -->
     <div class="view-switcher">
         <button class="view-btn" data-view="2023" type="button">10 Agosto 2023</button>
-        <button class="view-btn active" data-view="2024" type="button">1 Dicembre 2024</button>
+        <button class="view-btn" data-view="2024" type="button">1 Dicembre 2024</button>
+        <button class="view-btn active" data-view="2026" type="button">Maggio 2026</button>
+    </div>
+
+    <!-- DIDASCALIA ISTRUZIONI -->
+    <div class="info-panel">
+        <h4>ℹ️ Come consultare la mappa</h4>
+        <ul>
+            <li><strong>Spostati:</strong> Trascina la mappa con il mouse o con le dita.</li>
+            <li><strong>Zoom:</strong> Usa la rotellina del mouse o il pinch sulle dita.</li>
+            <li><strong>Dettagli:</strong> Clicca sui segnaposti colorati per vedere i danni.</li>
+            <li><strong>Coordinate:</strong> Clicca con il tasto destro del mouse per copiare i dati GPS.</li>
+            <li><strong>Linea Gialla:</strong> Visibile solo nella vista "Maggio 2026".</li>
+        </ul>
     </div>
 
     <button class="sources-btn" id="sourcesBtn" type="button">
         📚 Fonti dei dati
     </button>
 
+    <!-- BANDA FORENSIC ARCHITECTURE -->
+    <div class="fa-banner">
+        <span class="fa-icon">🔍</span>
+        <span>
+            <a href="https://gaza.forensic-architecture.org/database/?map=10.46/31.39728/34.37992" target="_blank" rel="noopener">
+                Consulta l'analisi completa
+            </a>
+            prodotta da <strong>Forensic Architecture</strong>, un team multidisciplinare per indagini su violazioni dei diritti dell'uomo e violenze di stato.
+        </span>
+    </div>
+
+    <!-- DRAWER FONTI -->
     <aside class="sources-drawer" id="sourcesDrawer">
         <div class="drawer-header">
             <h3>📚 Fonti dei dati</h3>
@@ -565,7 +697,7 @@
                     <span class="univ-source"><a href="https://en.wikipedia.org/wiki/University_College_of_Applied_Sciences" target="_blank">Wikipedia</a> / <a href="https://www.ochaopt.org/" target="_blank">UN OCHA</a></span>
                 </div>
                 <div class="source-item">
-                    <span class="univ-name">Linea Gialla</span>
+                    <span class="univ-name">Linea Gialla – 2026</span>
                     <span class="univ-source"><a href="https://www.ochaopt.org/" target="_blank">UN OCHA – mappe di riferimento</a> / <a href="https://www.reuters.com/" target="_blank">Reuters / AFP (mappe ottobre 2025)</a></span>
                 </div>
             </div>
@@ -573,9 +705,11 @@
             <div class="sources-note">
                 <strong>Nota:</strong> I contorni degli edifici sono stati ricostruiti sulla base di immagini satellitari e descrizioni dei confini disponibili su Wikipedia e altre fonti aperte antecedenti a settembre 2023. Le informazioni sui livelli di distruzione sono state raccolte da rapporti accademici e istituzionali pubblicati nel 2025 e 2026.
                 <br><br>
-                <strong>Linea Gialla:</strong> rappresentazione approssimativa basata su mappe pubblicate da UN OCHA, Reuters e AFP nell'ottobre 2025. Non è un confine ufficiale e il suo tracciato può variare nel tempo.
+                <strong>Linea Gialla:</strong> La "Yellow Line" mostrata è quella stabilita nell'ottobre 2025. Il tracciato è approssimativo e basato su mappe pubbliche di UN OCHA, Reuters e AFP.
                 <br><br>
-                <strong>Immagini satellitari:</strong> fornite da <a href="https://livingatlas.arcgis.com/wayback/" target="_blank" style="color:#b31b1b;">Esri World Imagery Wayback</a>.
+                <strong>Immagini satellitari:</strong> fornite da <a href="https://livingatlas.arcgis.com/wayback/" target="_blank" style="color:#b31b1b;">Esri World Imagery Wayback</a> per il 2023 e il 2024, e da Google Maps per il 2026.
+                <br><br>
+                <strong>Analisi Forensic Architecture:</strong> I dati e le visualizzazioni prodotte da Forensic Architecture sono consultabili sulla loro piattaforma dedicata.
             </div>
         </div>
         <div class="drawer-meta">
@@ -590,9 +724,13 @@
     ></script>
 
     <script>
+        // ============================================================
+        //  VISTE SATELLITARI
+        // ============================================================
         const VIEWS = {
             '2023': { label: '10 Agosto 2023', release: 17632 },
-            '2024': { label: '1 Dicembre 2024', release: 20512 }
+            '2024': { label: '1 Dicembre 2024', release: 20512 },
+            '2026': { label: 'Maggio 2026', type: 'hybrid' }
         };
 
         function createWaybackMapType(releaseNum, name) {
@@ -610,33 +748,39 @@
             });
         }
 
-        const YELLOW_LINE_COORDS = [
-            { lat: 31.5860, lng: 34.5170 },
-            { lat: 31.5600, lng: 34.5120 },
-            { lat: 31.5430, lng: 34.4950 },
-            { lat: 31.5250, lng: 34.4830 },
-            { lat: 31.5100, lng: 34.4720 },
-            { lat: 31.4900, lng: 34.4550 },
-            { lat: 31.4650, lng: 34.4320 },
-            { lat: 31.4400, lng: 34.4100 },
-            { lat: 31.4150, lng: 34.3900 },
-            { lat: 31.3900, lng: 34.3680 },
-            { lat: 31.3650, lng: 34.3420 },
-            { lat: 31.3350, lng: 34.3150 },
-            { lat: 31.3050, lng: 34.2900 },
-            { lat: 31.2750, lng: 34.2680 },
-            { lat: 31.2450, lng: 34.2480 },
-            { lat: 31.2200, lng: 34.2380 }
-        ];
+        // ============================================================
+        //  LINEA GIALLA (Solo per il 2026)
+        // ============================================================
+        const YELLOW_LINES = {
+            '2026': [
+                { lat: 31.5860, lng: 34.5170 },
+                { lat: 31.5600, lng: 34.5120 },
+                { lat: 31.5430, lng: 34.4950 },
+                { lat: 31.5250, lng: 34.4830 },
+                { lat: 31.5100, lng: 34.4720 },
+                { lat: 31.4900, lng: 34.4550 },
+                { lat: 31.4650, lng: 34.4320 },
+                { lat: 31.4400, lng: 34.4100 },
+                { lat: 31.4150, lng: 34.3900 },
+                { lat: 31.3900, lng: 34.3680 },
+                { lat: 31.3650, lng: 34.3420 },
+                { lat: 31.3350, lng: 34.3150 },
+                { lat: 31.3050, lng: 34.2900 },
+                { lat: 31.2750, lng: 34.2680 },
+                { lat: 31.2450, lng: 34.2480 },
+                { lat: 31.2200, lng: 34.2380 }
+            ]
+        };
 
         const YELLOW_LINE_LABEL_POS = { lat: 31.4300, lng: 34.4150 };
 
         const YELLOW_LINE_INFO = {
-            name: 'Linea Gialla',
-            statusLabel: 'Linea di demarcazione',
-            detail: 'Linea stabilita nell\'ottobre 2025 come separazione tra le aree a est (sotto controllo israeliano) e le aree a ovest della Striscia di Gaza. Il tracciato qui mostrato è un\'approssimazione basata su mappe pubbliche di UN OCHA, Reuters e AFP. Non è un confine ufficiale e può variare nel tempo.'
+            name: 'Linea Gialla (Yellow Line)',
+            statusLabel: 'Linea di demarcazione (2025-2026)',
+            detail: 'La "Yellow Line" rappresenta la linea di demarcazione stabilita nell\'ottobre 2025 tra le aree sotto controllo israeliano e quelle palestinesi. Il tracciato qui mostrato è un\'approssimazione basata su mappe pubbliche di UN OCHA, Reuters e AFP.'
         };
 
+        // ---------- DATI UNIVERSITÀ ----------
         const universityData = {
             "iug": {
                 "name": "Islamic University of Gaza",
@@ -915,6 +1059,7 @@
         let yellowPolyline = null;
         let yellowLabelMarker = null;
         let yellowVisible = true;
+        let currentYellowLine = '2026'; // vista iniziale
 
         function initMap() {
             const center = { lat: 31.4500, lng: 34.4000 };
@@ -931,54 +1076,16 @@
 
             Object.keys(VIEWS).forEach(function(key) {
                 const v = VIEWS[key];
-                map.mapTypes.set(key, createWaybackMapType(v.release, v.label));
+                if (v.release) {
+                    map.mapTypes.set(key, createWaybackMapType(v.release, v.label));
+                }
             });
 
-            map.setMapTypeId('2024');
+            // Vista iniziale: Maggio 2026 (Google Hybrid)
+            map.setMapTypeId('hybrid');
 
-            yellowPolyline = new google.maps.Polyline({
-                path: YELLOW_LINE_COORDS,
-                strokeColor: '#f5c518',
-                strokeOpacity: 1.0,
-                strokeWeight: 6,
-                zIndex: 5,
-                clickable: true,
-                map: map
-            });
-
-            new google.maps.Polyline({
-                path: YELLOW_LINE_COORDS,
-                strokeColor: '#8a6d00',
-                strokeOpacity: 1.0,
-                strokeWeight: 8,
-                zIndex: 4,
-                clickable: false,
-                map: map
-            });
-
-            yellowLabelMarker = new google.maps.Marker({
-                position: YELLOW_LINE_LABEL_POS,
-                map: map,
-                icon: {
-                    url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
-                        <svg xmlns="http://www.w3.org/2000/svg" width="1" height="1">
-                            <rect width="1" height="1" fill="none" />
-                        </svg>
-                    `),
-                    labelOrigin: new google.maps.Point(0, 0)
-                },
-                label: {
-                    text: 'LINEA GIALLA',
-                    className: 'yellow-label'
-                },
-                clickable: false,
-                zIndex: 2000
-            });
-
-            yellowPolyline.addListener('click', function(event) {
-                const pos = event.latLng || YELLOW_LINE_LABEL_POS;
-                createDraggablePopup(map, pos, YELLOW_LINE_INFO, true);
-            });
+            // Disegna la linea gialla per la vista iniziale
+            drawYellowLine(currentYellowLine);
 
             const allBounds = new google.maps.LatLngBounds();
 
@@ -1042,20 +1149,31 @@
 
             map.fitBounds(allBounds);
 
+            // Selettore viste
             const viewButtons = document.querySelectorAll('.view-btn');
             viewButtons.forEach(btn => {
                 btn.addEventListener('click', () => {
                     viewButtons.forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
-                    map.setMapTypeId(btn.dataset.view);
+                    
+                    const view = btn.dataset.view;
+                    if (view === '2026') {
+                        map.setMapTypeId('hybrid');
+                    } else {
+                        map.setMapTypeId(view);
+                    }
+
+                    // Aggiorna la linea gialla per la nuova vista
+                    currentYellowLine = view;
+                    drawYellowLine(currentYellowLine);
                 });
             });
 
+            // Toggle linea gialla
             const yellowToggle = document.getElementById('yellowToggle');
             yellowToggle.addEventListener('click', () => {
                 yellowVisible = !yellowVisible;
                 yellowToggle.classList.toggle('active', yellowVisible);
-
                 if (yellowPolyline) {
                     yellowPolyline.setMap(yellowVisible ? map : null);
                 }
@@ -1064,6 +1182,7 @@
                 }
             });
 
+            // Gestione coordinate GPS al click destro
             const coordOverlay = new google.maps.OverlayView();
             let coordPopupDiv = null;
 
@@ -1175,6 +1294,83 @@
                     coordPopupDiv = null;
                 }
             });
+        }
+
+        // Funzione per disegnare la linea gialla in base al periodo
+        function drawYellowLine(period) {
+            if (yellowPolyline) {
+                yellowPolyline.setMap(null);
+                yellowPolyline = null;
+            }
+            if (yellowLabelMarker) {
+                yellowLabelMarker.setMap(null);
+                yellowLabelMarker = null;
+            }
+
+            const yellowToggle = document.getElementById('yellowToggle');
+            const coords = YELLOW_LINES[period];
+
+            // Se non ci sono coordinate per questo periodo, nascondi tutto
+            if (!coords) {
+                yellowToggle.style.display = 'none';
+                return;
+            }
+
+            // Mostra il toggle se ci sono coordinate
+            yellowToggle.style.display = 'flex';
+
+            yellowPolyline = new google.maps.Polyline({
+                path: coords,
+                strokeColor: '#f5c518',
+                strokeOpacity: 1.0,
+                strokeWeight: 6,
+                zIndex: 5,
+                clickable: true,
+                map: map
+            });
+
+            // Bordo scuro sotto la linea
+            new google.maps.Polyline({
+                path: coords,
+                strokeColor: '#8a6d00',
+                strokeOpacity: 1.0,
+                strokeWeight: 8,
+                zIndex: 4,
+                clickable: false,
+                map: map
+            });
+
+            // Etichetta
+            yellowLabelMarker = new google.maps.Marker({
+                position: YELLOW_LINE_LABEL_POS,
+                map: map,
+                icon: {
+                    url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1" height="1">
+                            <rect width="1" height="1" fill="none" />
+                        </svg>
+                    `),
+                    labelOrigin: new google.maps.Point(0, 0)
+                },
+                label: {
+                    text: 'LINEA GIALLA',
+                    className: 'yellow-label'
+                },
+                clickable: false,
+                zIndex: 2000
+            });
+
+            // Popup al click sulla linea
+            yellowPolyline.addListener('click', function(event) {
+                const pos = event.latLng || YELLOW_LINE_LABEL_POS;
+                createDraggablePopup(map, pos, YELLOW_LINE_INFO, true);
+            });
+
+            // Mantieni la visibilità in base al toggle
+            if (!yellowVisible) {
+                yellowPolyline.setMap(null);
+                yellowLabelMarker.setMap(null);
+            }
         }
 
         function fallbackCopy(text) {

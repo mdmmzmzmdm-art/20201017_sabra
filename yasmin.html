@@ -10,22 +10,31 @@
 
     html, body {
       width: 100%;
-      height: 100%;
+      min-height: 100%;
       background: transparent;
       font-family: system-ui, Arial, sans-serif;
-      overflow: hidden;
     }
 
     body {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 20px;
+      padding: 40px 20px;
+      overflow-y: auto; /* Permette lo scorrimento per leggere tutto il testo */
+    }
+
+    .container {
+      max-width: 900px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem; /* Spazio tra l'immagine e il testo */
     }
 
     .poster {
       max-width: 100%;
-      max-height: 100%;
+      max-height: 75vh; /* Limita l'altezza per non spingere troppo in basso il testo */
       width: auto;
       height: auto;
       object-fit: contain;
@@ -33,11 +42,60 @@
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
       display: block;
     }
+
+    .text-box {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 2.5rem 3rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      color: #1e293b;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      border-left: 6px solid #b31b1b;
+      max-width: 100%;
+    }
+
+    .text-box p {
+      margin-bottom: 1.2rem;
+    }
+
+    .text-box p:last-child {
+      margin-bottom: 0;
+      font-weight: 600;
+      font-style: italic;
+      text-align: center;
+      margin-top: 2rem;
+      color: #0f172a;
+    }
+
+    @media (max-width: 700px) {
+      body { padding: 20px 10px; }
+      .text-box {
+        padding: 1.5rem;
+        font-size: 1rem;
+      }
+    }
   </style>
 </head>
 <body>
 
-  <img src="Yasmin.jpg" alt="Yasmin Khamis Al-Boubou" class="poster">
+  <div class="container">
+    <img src="Yasmin.jpg" alt="Yasmin Khamis Al-Boubou" class="poster">
+
+    <div class="text-box">
+      <p>Con profondo dolore ho appreso del martirio della Dott.ssa Yasmin Al-Bobo, una delle mie brillanti studentesse del Master, uccisa in un brutale bombardamento israeliano.</p>
+      
+      <p>Yasmin era una pensatrice eccezionale, dotata di una mente analitica acuta. Si distingueva inoltre per la sua grazia, bellezza, gentilezza e nobiltà d'animo. La sua perdita è una tragedia straziante.</p>
+      
+      <p>Quale crimine ha commesso, per essere strappata alla sua famiglia, ai suoi cari e ai suoi studenti? Sarà ricordata con profondo affetto e rispetto da tutti coloro che l'hanno conosciuta.</p>
+      
+      <p>Che Dio abbia pietà della sua anima e doni alla sua famiglia e a tutti coloro che l'hanno amata forza e pazienza.</p>
+      
+      <p>In verità, apparteniamo a Dio e a Lui ritorneremo.</p>
+    </div>
+  </div>
 
 </body>
 </html>
